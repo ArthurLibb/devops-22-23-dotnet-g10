@@ -1,4 +1,5 @@
 using Ardalis.GuardClauses;
+using Domain.Common;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -9,7 +10,7 @@ using System.Threading.Tasks;
 
 namespace Domain.VirtualMachines.VirtualMachine
 {
-    public class VMConnection : ValueObject
+    public class VMConnection : Entity
     {
 
         private string _fqdn;
@@ -45,12 +46,12 @@ namespace Domain.VirtualMachines.VirtualMachine
 
 
 
-        protected override IEnumerable<object> GetEqualityComponents()
+        /*protected override IEnumerable<object> GetEqualityComponents()
         {
             yield return FQDN.ToLower();
             yield return Hostname.ToString();
             yield return Username.ToLower();
             yield return Password;
-        }
+        }*/
     }
 }

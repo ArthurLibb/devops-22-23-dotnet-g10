@@ -1,6 +1,6 @@
 using Shared.VMContracts;
 using System.Linq;
-using Persistence.Data;
+using Persistence;
 using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
 using Domain.VirtualMachines.Contract;

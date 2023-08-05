@@ -24,6 +24,11 @@ namespace Domain.Projecten
         public Klant Klant { get { return _klant; } set { _klant = Guard.Against.Null(value, nameof(_klant)); } }
         public List<VirtualMachine> VirtualMachines { get { return _vms; } set { _vms = Guard.Against.Null(value, nameof(_vms)); } }
 
+        public Project()
+        {
+
+        }
+
         public Project(string name)
         {
             this.Name = name;

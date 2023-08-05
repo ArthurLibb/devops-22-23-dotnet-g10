@@ -1,6 +1,6 @@
 ﻿using Shared.VirtualMachines;
 using System.Linq;
-using Persistence.Data;
+using Persistence;
 using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
 using Domain.VirtualMachines.VirtualMachine;

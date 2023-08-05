@@ -31,8 +31,6 @@ namespace Services.Server
                 List<VirtualMachineDto.Rapportage> vms = _servers.Find(e => e.Id == request.ServerId).VirtualMachines.FindAll(e => e.Connection is not null).Select(e => new VirtualMachineDto.Rapportage() { Id = e.Id, Name = e.Name, Statistics = e.Statistics }).ToList();
                 response.Server.Id = request.ServerId;
                 response.Server.VirtualMachines = vms;
-
-
             }
             else
             {
@@ -53,8 +51,6 @@ namespace Services.Server
             {
                 Id = s.Id,
                 Name = s.Naam,
-                Hardware = s.HardWare,
-                HardWareAvailable = s.HardWareAvailable,
                 ServerAddress = s.ServerAddress
             }).ToList();
 
@@ -70,35 +66,7 @@ namespace Services.Server
 
         public async Task<FysiekeServerResponse.ResourcesAvailable> GetAvailableHardWareOnDate(FysiekeServerRequest.Date date)
         {
-
-            FysiekeServerResponse.ResourcesAvailable response = new();
-            response.Servers = new List<FysiekeServerDto.Beschikbaarheid>();
-
-
-
-            foreach (var server in _servers)
-            {
-                Hardware max = server.HardWare;
-                foreach (var vm in server.VirtualMachines)
-                {
-                    if (vm.Contract.EndDate < date.FromDate || vm.Contract.StartDate > date.ToDate)
-                    {
-                        continue;
-                    }
-                    else
-                    {
-                        Console.WriteLine(max.ToString());
-                        Console.WriteLine(server.VirtualMachines.Count());
-                        max = new Hardware(max.Memory - vm.Hardware.Memory, max.Storage - vm.Hardware.Storage, max.Amount_vCPU - vm.Hardware.Amount_vCPU);
-
-                    }
-
-                }
-
-                response.Servers.Add(new FysiekeServerDto.Beschikbaarheid() { Id = server.Id, AvailableHardware = max });
-
-            };
-            return response;
+            throw new NotImplementedException();
         }
 
         //retourneert data voor de volgende 3 maanden
@@ -168,9 +136,9 @@ namespace Services.Server
 
             foreach (var server in _servers)
             {
-                maxHardware.Memory += server.HardWare.Memory;
-                maxHardware.Storage += server.HardWare.Storage;
-                maxHardware.Amount_vCPU += server.HardWare.Amount_vCPU;
+                maxHardware.Memory += 0;
+                maxHardware.Storage += 0;
+                maxHardware.Amount_vCPU += 0;
             }
             return maxHardware;
 

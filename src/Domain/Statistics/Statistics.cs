@@ -3,19 +3,18 @@ using Domain.Statistics.Datapoints;
 using Domain.VirtualMachines.Statistics;
 using System.Collections.Generic;
 using System;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace Domain.Statistics;
 
-public class Statistic
+public class Statistic : Entity
 {
-
-
-
     public DateTime StartTime { get; set; }
     public DateTime EndTime { get; set; }
+    [NotMapped]
     public Hardware Hardware { get; set; }
 
-
+    public Statistic() { }
     public Statistic(DateTime start, DateTime end, Hardware hardware)
     {
         StartTime = start;

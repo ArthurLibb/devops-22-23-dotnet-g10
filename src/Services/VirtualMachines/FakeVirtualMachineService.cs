@@ -1,5 +1,6 @@
 using Domain.Common;
 using Domain.Projecten;
+using Domain.VirtualMachines;
 using Domain.VirtualMachines.BackUp;
 using Domain.VirtualMachines.Contract;
 using Domain.VirtualMachines.VirtualMachine;
@@ -10,7 +11,7 @@ namespace Services.VirtualMachines
     public class FakeVirtualMachineService : IVirtualMachineService
     {
 
-        private List<VirtualMachine> _virtualMachines = new();
+        private List<Domain.VirtualMachines.VirtualMachine.VirtualMachine> _virtualMachines = new();
 
         public FakeVirtualMachineService()
         {
@@ -59,7 +60,7 @@ namespace Services.VirtualMachines
             }
             return response;
         }
-
+        
         public async Task<VirtualMachineResponse.GetIndex> GetIndexAsync(VirtualMachineRequest.GetIndex request)
         {
             await Task.Delay(100);

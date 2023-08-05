@@ -22,7 +22,12 @@ public static class UserResponse
 
     public class Create
     {
+        public int Id { get; set; }
+    }
 
+    public class CurrentUser
+    {
+        public int UserId { get; set; }
     }
 
     public class AllAdminsIndex

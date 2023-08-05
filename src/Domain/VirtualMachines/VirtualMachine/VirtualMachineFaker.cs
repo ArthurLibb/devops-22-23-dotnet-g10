@@ -64,7 +64,7 @@ namespace Domain.VirtualMachines.VirtualMachine
             RuleFor(x => x.Connection, _ => new Random().Next(0, 2) % 1 == 0 ? new VMConnection("MOCK-FQDN", GetRandomIpAddress(), "MOCK-USER", PasswordGenerator.Generate(20, 3, 3, 3, 3)) : null);
             RuleFor(x => x.Mode, x => x.PickRandom<VirtualMachineMode>());
             RuleFor(x => x.Contract, _ => contract);
-            RuleFor(x => x.FysiekeServer, _ => new FysiekeServer("Mock Server", FysiekeServerFaker.GenerateRandomHardware(), "mock-server_adres.hogent.be"));
+            RuleFor(x => x.FysiekeServer, _ => new FysiekeServer("Mock Server", "mock-server_adres.hogent.be"));
 
 
             RuleFor(x => x.Statistics, _ => new Statistic(contract.StartDate, contract.EndDate, hardware));
