@@ -5,7 +5,7 @@ namespace Domain.Users
 {
     public class ExterneKlant : Klant
     {
-
+        
         private string _bedrijfsNaam;
         public String Bedrijfsnaam { get { return _bedrijfsNaam; } set { _bedrijfsNaam = Guard.Against.NullOrEmpty(value, nameof(_bedrijfsNaam)); } }
 
@@ -15,8 +15,8 @@ namespace Domain.Users
             this.Bedrijfsnaam = bedrijfsnaam;
 
         }
-
-
-
+        public ExterneKlant() : base("","","","","")
+        {
+        }
     }
 }

@@ -45,9 +45,6 @@ namespace Domain.Projecten
         {
             List<Project> output = new();
 
-
-
-
             if (_projects.Count() < count)
             {
                 output = base.Generate(count, ruleSets);

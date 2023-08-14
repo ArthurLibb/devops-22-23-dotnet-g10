@@ -71,8 +71,6 @@ namespace Services.Users
                     Email = k.Email,
                     PhoneNumber = k.PhoneNumber,
                     Projects = projecten,
-                    contactPersoon = k.ContactPersoon,
-                    ReserveContactPersoon = k.ContactPersoonReserv
                 };
 
 

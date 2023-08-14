@@ -23,6 +23,8 @@ namespace Domain.Users
             this.Opleiding = opleiding;
         }
 
-
+        public InterneKlant() : base("", "", "", "", "")
+        {
+        }
     }
 }

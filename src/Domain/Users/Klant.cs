@@ -12,15 +12,7 @@ namespace Domain.Users
     public abstract class Klant : Gebruiker
     {
 
-
-        private ContactDetails? _contactPs;
-        private ContactDetails? _contactPs2;
         private List<Project> _projecten = new();
-
-
-
-        public ContactDetails? ContactPersoon { get { return _contactPs; } set { _contactPs = Guard.Against.Null(value, nameof(_contactPs)); } }
-        public ContactDetails? ContactPersoonReserv { get { return _contactPs2; } set { _contactPs2 = Guard.Against.Null(value, nameof(_contactPs2)); } }
         public List<Project> Projecten { get { return _projecten; } }
 
 

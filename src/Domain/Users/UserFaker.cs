@@ -10,12 +10,10 @@ namespace Domain.Users
 {
     public static class UserFaker
     {
-        private static int id = 1;
-
-
+        
         public class Klant : Faker<Users.Klant>
         {
-
+            private Random _random = new Random();
             private List<Users.Klant> _klanten = new();
 
             private static Klant _instance;
@@ -35,7 +33,7 @@ namespace Domain.Users
 
             public Klant()
             {
-                if (id % 2 == 0)
+                if (_random.Next(1,3) % 2 == 2)
                 {
                     CustomInstantiator(e => new InterneKlant(
                         e.Person.LastName,
@@ -58,8 +56,6 @@ namespace Domain.Users
                          e.Company.CompanyName()
                    ));
                 }
-
-                RuleFor(e => e.Id, _ => id++);
             }
 
             public override List<Users.Klant> Generate(int count, string ruleSets = null)

@@ -19,7 +19,7 @@ internal class Virtualmachineconfiguration : EntityConfiguration<VirtualMachine>
             h.Property(ha => ha.Amount_vCPU).HasColumnName("amount_vcpu").IsRequired();
             h.Property(ha => ha.Storage).HasColumnName("storage").IsRequired();
         });
-        builder.HasOne(x => x.BackUp);
+        builder.OwnsOne(x => x.BackUp);
         builder.Ignore(x => x.Statistics);
     }
 }
