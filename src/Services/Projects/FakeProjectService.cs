@@ -14,8 +14,6 @@ namespace Services.Projects
         public FakeProjectService()
         {
             _projects = ProjectFaker.Instance.Generate(15);
-
-
         }
 
         public async Task<ProjectResponse.Create> CreateAsync(ProjectRequest.Create request)

@@ -11,7 +11,6 @@ public class Statistic : Entity
 {
     public DateTime StartTime { get; set; }
     public DateTime EndTime { get; set; }
-    [NotMapped]
     public Hardware Hardware { get; set; }
 
     public Statistic() { }

@@ -11,8 +11,6 @@ namespace Domain.VirtualMachines.Contract
         private DateTime _startDate;
         private DateTime _endDate;
 
-
-        public int Id { get; set; }
         public int CustomerId { get { return _customerId; } set { _customerId = Guard.Against.NegativeOrZero(value, nameof(_customerId)); } }
         public int VMId { get { return _vmId; } set { _vmId = Guard.Against.NegativeOrZero(value, nameof(_vmId)); } }
         public DateTime StartDate { get { return _startDate; } set { _startDate = Guard.Against.Null(value, nameof(_startDate)); } }

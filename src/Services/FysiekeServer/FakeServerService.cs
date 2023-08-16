@@ -120,10 +120,6 @@ namespace Services.Server
                     }
                 }
             }
-            foreach (var kv in max)
-            {
-                Console.WriteLine($"{kv.Key}:{kv.Value}");
-            }
 
             return new FysiekeServerResponse.GraphValues() { GraphData = max };
         }

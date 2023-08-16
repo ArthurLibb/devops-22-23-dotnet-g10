@@ -36,9 +36,6 @@ namespace Domain.Statistics.Datapoints
             CustomInstantiator(e => new DataPoint(Tick++, GenerateRandomHardWareUsage()));
         }
 
-
-
-
         public Hardware GenerateRandomHardWareUsage()
         {
             int m = (int)Math.Ceiling(Hardware.Memory * GetDouble(0.7, 1.0));

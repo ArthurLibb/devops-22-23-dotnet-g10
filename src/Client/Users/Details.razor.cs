@@ -30,7 +30,6 @@ public partial class Details
         {
             Intern = true;
         }
-        Console.WriteLine(Klant.Projects.Count() == 0);
         Loading = false;
     }
     public void Toggle()

@@ -21,7 +21,6 @@ namespace Domain.Server
         private string _serverAddress;
 
 
-        public int Id { get; set; }
         public String Naam { get { return _name; } private set { _name = Guard.Against.NullOrEmpty(value, nameof(_name)); } }
         public String ServerAddress { get { return _serverAddress; } private set { _serverAddress = Guard.Against.NullOrEmpty(value, nameof(_serverAddress)); } }
         public List<VirtualMachine> VirtualMachines { get; private set; }
@@ -42,17 +41,12 @@ namespace Domain.Server
             vm.Mode = VirtualMachineMode.READY;
         }
 
-
-
         //IP om te connecteren met de VM
         public IPAddress GetRandomIpAddress()
         {
             var random = new Random();
             string ip = $"{random.Next(1, 255)}.{random.Next(0, 255)}.{random.Next(0, 255)}.{random.Next(0, 255)}";
-
-
             return IPAddress.Parse(ip);
-
         }
 
     }

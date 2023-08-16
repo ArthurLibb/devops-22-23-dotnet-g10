@@ -185,7 +185,6 @@
   <ItemGroup>
 	  <!--TIJDELIJK LINK NAAR SERVICES OM DE MOCK SERVICE TE INJECTEREN-->
     <ProjectReference Include="..\Services\Services.csproj" />
-	  
     <ProjectReference Include="..\Shared\Shared.csproj" />
     <ProjectReference Include="..\Domain\Domain.csproj" />
   </ItemGroup>

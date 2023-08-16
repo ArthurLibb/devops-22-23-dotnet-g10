@@ -1,5 +1,4 @@
-﻿/*using Client.Extentions;
-using Shared.Projecten;
+﻿using Client.Extentions;
 using Shared.Users;
 using System.Net.Http.Json;
 
@@ -25,30 +24,26 @@ namespace Client.Users
             return response;
         }
 
-        public async Task<UserResponse.GetIndex> GetIndexAsync(UserRequest.GetIndex request)
+        public async Task<UserResponse.AllKlantenIndex> GetIndexAsync(UserRequest.AllKlantenIndex request)
         {
             var HttpClient = _IHttpClientFactory.CreateClient("AuthenticatedServerAPI");
 
             var queryParam = request.GetQueryString();
-            var response = await HttpClient.GetFromJsonAsync<UserResponse.GetIndex>($"{endpoint}?{queryParam}");
+            var response = await HttpClient.GetFromJsonAsync<UserResponse.AllKlantenIndex>($"{endpoint}?{queryParam}");
             return response;
         }
 
-        public async Task<UserResponse.Create> CreateAsync(UserRequest.Create request)
+        public async Task<UserResponse.Create> CreateAsync(UserRequest.Edit request)
         {
-            var HttpClient = _IHttpClientFactory.CreateClient("AuthenticatedServerAPI");
-
-            var response = await HttpClient.PostAsJsonAsync(endpoint, request);
-            Console.WriteLine(response);
-            return await response.Content.ReadFromJsonAsync<UserResponse.Create>();
+            throw new NotImplementedException();
         }
 
-        public async Task<UserResponse.Detail> GetDetail(UserRequest.Detail request)
+        public async Task<UserResponse.DetailKlant> GetDetail(UserRequest.DetailKlant request)
         {
             var HttpClient = _IHttpClientFactory.CreateClient("AuthenticatedServerAPI");
 
-            var queryParam = request.UserId;
-            var response = await HttpClient.GetFromJsonAsync<UserResponse.Detail>($"{endpoint}/{queryParam}");
+            var queryParam = request.KlantId;
+            var response = await HttpClient.GetFromJsonAsync<UserResponse.DetailKlant>($"{endpoint}/{queryParam}");
             return response;
         }
 
@@ -60,6 +55,20 @@ namespace Client.Users
             var response = await HttpClient.GetFromJsonAsync<UserResponse.Edit>($"{endpoint}?{queryParam}");
             return response;
         }
+
+        public Task<UserResponse.AllKlantenIndex> GetAllKlanten(UserRequest.AllKlantenIndex request)
+        {
+            throw new NotImplementedException();
+        }
+
+        public Task<UserResponse.DetailKlant> GetDetailKlant(UserRequest.DetailKlant request)
+        {
+            throw new NotImplementedException();
+        }
+
+        Task IUserService.EditAsync(UserRequest.Edit request)
+        {
+            throw new NotImplementedException();
+        }
     }
 }
-*/

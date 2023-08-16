@@ -43,15 +43,6 @@ namespace Domain.VirtualMachines.VirtualMachine
             Username = username;
             Password = password;
         }
-
-
-
-        /*protected override IEnumerable<object> GetEqualityComponents()
-        {
-            yield return FQDN.ToLower();
-            yield return Hostname.ToString();
-            yield return Username.ToLower();
-            yield return Password;
-        }*/
+        public VMConnection() { }
     }
 }

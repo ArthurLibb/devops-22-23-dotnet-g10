@@ -30,13 +30,9 @@ namespace Domain.Projecten
 
         public ProjectFaker()
         {
-
-            int id = 1;
             CustomInstantiator(e => new Project($"Project: {e.Company.CompanyName()}"));
-            RuleFor(x => x.Id, _ => id++);
             RuleFor(x => x.VirtualMachines, _ => VirtualMachineFaker.Instance.Generate(5));
             RuleFor(x => x.Klant, _ => UserFaker.Klant.Instance.Generate(1)[0]);
-
         }
 
 

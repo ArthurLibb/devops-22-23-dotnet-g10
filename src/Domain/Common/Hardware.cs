@@ -9,7 +9,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace Domain.Common;
 
-[Keyless]
+[Owned]
 public class Hardware : ValueObject
 {
 
@@ -32,24 +32,17 @@ public class Hardware : ValueObject
         get { return _amountVCPU; }
         set { _amountVCPU = Guard.Against.Negative(value, nameof(_amountVCPU)); }
     }
-
-    public Hardware()
+    public Hardware(int memory, int storage, int amount_vCPU)
     {
-        this._memory = 0;
-        this.Storage = 0;
-        this.Amount_vCPU = 0;
-    }
-    public Hardware(int m, int s, int a_vCPU)
-    {
-        this.Memory = m;
-        this.Storage = s;
-        this.Amount_vCPU = a_vCPU;
+        this.Memory = memory;
+        this.Storage = storage;
+        this.Amount_vCPU = amount_vCPU;
     }
     protected override IEnumerable<object> GetEqualityComponents()
     {
-        yield return Memory;
-        yield return Storage;
-        yield return Amount_vCPU;
+        yield return _memory;
+        yield return _storage;
+        yield return _amountVCPU;
     }
 
     public override string ToString() => $"{Amount_vCPU} {Storage} {Memory}";

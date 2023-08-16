@@ -2,21 +2,18 @@
 using Shared.Projects;
 using System.Net;
 using System.Net.Http.Json;
-/*
+
 namespace Client.VirtualMachines
 {
-    public class ProjectService : IProjectenService
+    public class ProjectService : IProjectService
     {
-        private readonly IHttpClientFactory _IHttpClientFactory;
+        private readonly HttpClient client;
         private string endpoint = "api/project";
 
 
-        public ProjectService(HttpClient _httpClient,*IHttpClientFactory _IHttpClientFactory)
+        public ProjectService(HttpClient client)
         {
-            this._httpClient = _httpClient;
-            this._IHttpClientFactory = _IHttpClientFactory;
-
-
+            this.client = client;
         }
 
         public Task<ProjectResponse.Create> CreateAsync(ProjectRequest.Create request)
@@ -34,24 +31,15 @@ namespace Client.VirtualMachines
             throw new NotImplementedException();
         }
 
-        public async Task<ProjectResponse.GetDetail> GetDetailAsync(ProjectRequest.GetDetail request)
+        public Task<ProjectResponse.Detail> GetDetailAsync(ProjectRequest.Detail request)
         {
-            var HttpClient = _IHttpClientFactory.CreateClient("AuthenticatedServerAPI");
-            var queryParameters = request.ProjectenId;
-            var response = await HttpClient.GetFromJsonAsync<ProjectenResponse.GetDetail>($"{endpoint}/{queryParameters}");
-            return response;
+            throw new NotImplementedException();
         }
 
-        public async Task<ProjectenResponse.GetIndex> GetIndexAsync(ProjectenRequest.GetIndex request)
+        public async Task<ProjectResponse.All> GetIndexAsync(ProjectRequest.All request)
         {
-            var HttpClient = _IHttpClientFactory.CreateClient("AuthenticatedServerAPI");
-
-            var queryParameters = request.GetQueryString();
-            var response = await HttpClient.GetFromJsonAsync<ProjectenResponse.GetIndex>($"{endpoint}?{queryParameters}");
+            var response = await client.GetFromJsonAsync<ProjectResponse.All>($"{endpoint}");
             return response;
-
-
         }
     }
 }
-*/

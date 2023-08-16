@@ -45,6 +45,7 @@ namespace Domain.Utility
             }
 
 
+
             return new string(output.ToString().ToCharArray().OrderBy(e => (new Random().Next(2) % 2) == 0).ToArray());
 
         }

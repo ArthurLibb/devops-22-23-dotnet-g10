@@ -18,8 +18,6 @@ namespace Domain.Projecten
         private Klant _klant;
 
 
-
-        public int Id { get; set; }
         public String Name { get { return _name; } set { _name = Guard.Against.NullOrEmpty(value, nameof(_name)); } }
         public Klant Klant { get { return _klant; } set { _klant = Guard.Against.Null(value, nameof(_klant)); } }
         public List<VirtualMachine> VirtualMachines { get { return _vms; } set { _vms = Guard.Against.Null(value, nameof(_vms)); } }

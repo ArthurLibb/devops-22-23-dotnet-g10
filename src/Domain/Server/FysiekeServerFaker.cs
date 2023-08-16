@@ -13,13 +13,12 @@ namespace Domain.Server
     {
         public FysiekeServerFaker()
         {
-            int id = 1;
 
             CustomInstantiator(e => {
-                return new FysiekeServer("Server " + id, e.Internet.DomainName() + "." + "hogent.be");
+                return new FysiekeServer("Server ", e.Internet.DomainName() + "." + "hogent.be");
             });
 
-            RuleFor(e => e.Id, _ => id++);
+
             RuleFor(e => e.VirtualMachines, _ => VirtualMachineFaker.Instance.Generate(12));
 
         }

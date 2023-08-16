@@ -30,9 +30,7 @@ namespace Services.VirtualMachines
             await Task.Delay(100);
             VirtualMachineResponse.GetDetail response = new();
 
-            Console.WriteLine("Incoming ID: " + request.VirtualMachineId);
-            Console.WriteLine("Found VM: " + (_virtualMachines.Count(e => e.Id == request.VirtualMachineId)).ToString());
-
+        
             VirtualMachine? vm = _virtualMachines.SingleOrDefault(x => x.Id == request.VirtualMachineId);
 
             if (vm is not null)

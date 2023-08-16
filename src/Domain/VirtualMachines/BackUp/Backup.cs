@@ -23,11 +23,5 @@ namespace Domain.VirtualMachines.BackUp
             LastBackup = lastBackup;
         }
 
-        /*protected override IEnumerable<object> GetEqualityComponents()
-        {
-            yield return (int)Type;
-            yield return LastBackup.HasValue ? LastBackup.Value.Millisecond : 0;
-
-        }*/
     }
 }

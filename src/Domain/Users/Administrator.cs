@@ -11,7 +11,7 @@ namespace Domain.Users
         {
             this.Role = role;
         }
-        
+        public Administrator() : base("", "", "", "", "") { }
     }
 }
 

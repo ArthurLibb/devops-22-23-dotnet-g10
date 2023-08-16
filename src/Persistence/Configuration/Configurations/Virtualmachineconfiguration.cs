@@ -16,10 +16,9 @@ internal class Virtualmachineconfiguration : EntityConfiguration<VirtualMachine>
         builder.OwnsOne(x => x.Hardware, h =>
         {
             h.Property(ha => ha.Memory).HasColumnName("memory").IsRequired();
-            h.Property(ha => ha.Amount_vCPU).HasColumnName("amount_vcpu").IsRequired();
+            h.Property(ha => ha.Amount_vCPU).HasColumnName("amount_vCPU").IsRequired();
             h.Property(ha => ha.Storage).HasColumnName("storage").IsRequired();
         });
-        builder.OwnsOne(x => x.BackUp);
-        builder.Ignore(x => x.Statistics);
+        builder.HasOne(x => x.Statistics);
     }
 }

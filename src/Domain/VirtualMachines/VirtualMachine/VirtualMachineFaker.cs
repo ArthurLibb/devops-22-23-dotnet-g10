@@ -21,10 +21,13 @@ namespace Domain.VirtualMachines.VirtualMachine
 
     public class VirtualMachineFaker : Faker<VirtualMachine>
     {
-
+        private int id = 1;
         private List<VirtualMachine> _virtualMachines = new();
-
-
+        private List<FysiekeServer> _fysiekeServers = new();
+        private static readonly Dictionary<string, string> ewaServers = new Dictionary<string, string>() {
+            { "Server 1 - thuis", "thuis.com" },{ "Random Server", "ikd.this-a-server-.be" },{ "Server in birmingham", "I-live-in-ashithole.com" }
+        };
+        private Random random = new Random();
         private static VirtualMachineFaker instance = null;
 
         public static VirtualMachineFaker Instance
@@ -45,6 +48,7 @@ namespace Domain.VirtualMachines.VirtualMachine
 
             Hardware hardware = null;
             VMContract contract = null;
+            string password = PasswordGenerator.Generate(12, 3, 3, 3, 2);
 
             CustomInstantiator(e =>
             {
@@ -59,13 +63,28 @@ namespace Domain.VirtualMachines.VirtualMachine
 
             });
 
-            RuleFor(x => x.Connection, _ => new Random().Next(0, 2) % 1 == 0 ? new VMConnection("MOCK-FQDN", GetRandomIpAddress(), "MOCK-USER", PasswordGenerator.Generate(20, 3, 3, 3, 3)) : null);
+            RuleFor(x => x.Connection, _ => new VMConnection("MOCK-FQDN", GetRandomIpAddress(), "MOCK-USER", password));
             RuleFor(x => x.Mode, x => x.PickRandom<VirtualMachineMode>());
             RuleFor(x => x.Contract, _ => contract);
-            RuleFor(x => x.FysiekeServer, _ => new FysiekeServer("Mock Server", "mock-server_adres.hogent.be"));
-
-
+            RuleFor(x => x.FysiekeServer, _ => generateServer());
             RuleFor(x => x.Statistics, _ => new Statistic(contract.StartDate, contract.EndDate, hardware));
+        }
+
+       public FysiekeServer generateServer()
+        {
+            if(_fysiekeServers.Count < ewaServers.Count)
+            {
+                var aServer = ewaServers.ElementAt(_fysiekeServers.Count);
+
+                FysiekeServer newServer = new FysiekeServer(aServer.Key, aServer.Value);
+                _fysiekeServers.Add(newServer);
+                return newServer;
+            }
+            else
+            {
+                int randomServer = random.Next(0, _fysiekeServers.Count);
+                return _fysiekeServers[randomServer];
+            }
         }
 
 
@@ -85,9 +104,7 @@ namespace Domain.VirtualMachines.VirtualMachine
             }
             else
             {
-
                 output = _virtualMachines.GetRange(0, count);
-
             }
             return output;
         }
