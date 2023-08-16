@@ -7,6 +7,9 @@ using Domain.VirtualMachines.Contract;
 using Domain.Statistics;
 using Domain.VirtualMachines.VirtualMachine;
 using FluentValidation;
+using Shared.VMContracts;
+using Shared.Servers;
+using Shared.VMConnection;
 
 namespace Shared.VirtualMachines;
 
@@ -23,10 +26,10 @@ public static class VirtualMachineDto
     {
         public Hardware Hardware { get; set; }
         public OperatingSystemEnum OperatingSystem { get; set; }
-        public VMContract Contract { get; set; }
+        public VMContractDto.Index Contract { get; set; }
         public Backup BackUp { get; set; }
-        public FysiekeServer? FysiekeServer { get; set; }
-        public VMConnection? VMConnection { get; set; }
+        public FysiekeServerDto.Index? FysiekeServer { get; set; }
+        public VMConnectionDto.Index? VMConnection { get; set; }
     }
 
     public class Rapportage

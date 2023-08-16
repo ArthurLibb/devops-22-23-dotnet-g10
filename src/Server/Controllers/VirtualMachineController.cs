@@ -18,14 +18,14 @@ public class VirtualMachineController : ControllerBase
 
 
     //[Authorize(Roles = "Klant")]
-    [HttpGet, AllowAnonymous]
+    [HttpGet]
     public Task<VirtualMachineResponse.GetIndex> GetIndexAsync([FromQuery] VirtualMachineRequest.GetIndex request)
     {
         return virtualMachineService.GetIndexAsync(request);
     }
 
     //[Authorize(Roles = "Klant")]
-    [HttpGet("{VirtualMachineId}"), AllowAnonymous]
+    [HttpGet("{VirtualMachineId}")]
     public Task<VirtualMachineResponse.GetDetail> GetDetailAsync([FromRoute] VirtualMachineRequest.GetDetail request)
     {
         return virtualMachineService.GetDetailAsync(request);

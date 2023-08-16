@@ -9,6 +9,8 @@ using Shared.Projects;
 using Persistence.Configuration;
 using System.Collections.Generic;
 using Shared.VirtualMachines;
+using Domain.Users;
+using Shared.Users;
 
 namespace Services.Projecten
 {
@@ -18,11 +20,12 @@ namespace Services.Projecten
         {
             _dbContext = dbContext;
             _projecten = dbContext.projecten;
+            _klanten = dbContext.klanten;
         }
 
         private readonly HerExamenDBContext _dbContext;
         private readonly DbSet<Project> _projecten;
-
+        private readonly DbSet<Klant> _klanten;
 
         private IQueryable<Project> GetProjectById(int id) => _projecten
                 .AsNoTracking()
@@ -31,7 +34,7 @@ namespace Services.Projecten
 
         public async Task<ProjectResponse.All> GetIndexAsync(ProjectRequest.All request)
         {
-            Console.WriteLine($"--------------------------------------------");
+            Console.WriteLine("-------- Start Service Get proj---------");
             ProjectResponse.All response = new();
             response.Projects = new();
             List<Project> projects;
@@ -45,31 +48,38 @@ namespace Services.Projecten
             {
                 projects = await _dbContext.projecten.Include(p => p.VirtualMachines).ThenInclude(v => v.Contract).ToListAsync();
             }
-
+            Console.WriteLine(projects.Count);
+            Console.WriteLine(projects.ToArray());
             foreach(var p in projects)
             {
-                response.Projects.Add(new ProjectDto.Index {Id = p.Id, Klant = p.Klant, Name = p.Name });
+                var klant = await getKlantfromProject(p);
+                response.Projects.Add(new ProjectDto.Index {Id = p.Id, Klant = klant, Name = p.Name });  
             }
 
             response.Total = projects.Count();
-            Console.WriteLine($"{response}");
+            Console.WriteLine("-------- End Service Get proj---------");
             return response;
         }
 
         public async Task<ProjectResponse.Detail> GetDetailAsync(ProjectRequest.Detail request)
         {
+            Console.WriteLine($"-------- Start Service Get detail proj met id = {request.ProjectId}---------");
             List<VirtualMachineDto.Index> vms = new();
             ProjectResponse.Detail response = new();
 
             Project project = await _dbContext.projecten.Include(p => p.VirtualMachines).ThenInclude(v => v.Contract).SingleOrDefaultAsync(p => p.Id == request.ProjectId);
+
             if(project == null)
             {
                 response.Project.Id = -1;
                 return response;
             }
             project.VirtualMachines.ForEach(v => vms.Add(new VirtualMachineDto.Index() {Id= v.Id, Mode = v.Mode, Name = v.Name }));
-            response.Project = new ProjectDto.Detail() { Id = project.Id, Klant = project.Klant, Name = project.Name, VirtualMachines = vms};
+            var klant = await getKlantfromProject(project);
+            response.Project = new ProjectDto.Detail() { Id = project.Id, Name = project.Name, VirtualMachines = vms, Klant = klant };
+            
 
+            Console.WriteLine($"-------- End Service Get detail proj met id = {request.ProjectId}---------\n");
             return response;
         }
 
@@ -113,6 +123,29 @@ namespace Services.Projecten
                 }
     */
             throw new NotImplementedException();
+        }
+
+        private async Task<KlantDto.Index> getKlantfromProject(Project proj)
+        {
+            var resp = new KlantDto.Index();
+            var id = proj.VirtualMachines.First(v => v.Contract.CustomerId > 0 && v.Contract.CustomerId != null)?.Contract.CustomerId;
+           
+
+            Console.WriteLine("Getting klant from porj");
+            Console.WriteLine(id);
+
+            if(id!= null)
+            {
+                var klant = await _dbContext.klanten.FirstOrDefaultAsync(k => k.Id == id);
+                resp.FirstName = klant.FirstName;
+                resp.Name = klant.Name;
+                resp.Id = klant.Id;
+                resp.Email = klant.Email;
+                resp.PhoneNumber = klant.PhoneNumber;
+            }
+
+
+            return resp;
         }
     }
 }

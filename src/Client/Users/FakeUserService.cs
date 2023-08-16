@@ -19,12 +19,23 @@ namespace Services.Users
         }
         public async Task EditAsync(UserRequest.Edit request)
         {
-            await Task.Delay(100);
+            /*await Task.Delay(100);
             Klant klant = _klanten.Find(k => k.Id == request.KlantId);
             klant.FirstName = request.Klant.FirstName;
             klant.Name = request.Klant.Name;
             klant.Email = request.Klant.Email;
-            klant.PhoneNumber = request.Klant.PhoneNumber;
+            klant.PhoneNumber = request.Klant.PhoneNumber;*/
+            throw new NotImplementedException();
+        }
+
+        public Task<UserResponse.Edit> EditAsync(int id, UserRequest.Edit request)
+        {
+            throw new NotImplementedException();
+        }
+
+        public Task<UserResponse.DetailAdmin> GetAdminDetails(UserRequest.Detailadmin request)
+        {
+            throw new NotImplementedException();
         }
 
         public Task<UserResponse.AllAdminsIndex> GetAllAdminsIndex(UserRequest.AllAdminUsers request)
@@ -34,7 +45,7 @@ namespace Services.Users
 
         public async Task<UserResponse.AllKlantenIndex> GetAllKlanten(UserRequest.AllKlantenIndex request)
         {
-            await Task.Delay(100);
+            /*await Task.Delay(100);
             UserResponse.AllKlantenIndex response = new();
             response.Klanten = _klanten.Select(x => new KlantDto.Index
             {
@@ -46,12 +57,13 @@ namespace Services.Users
             }).ToList();
             response.Total = _klanten.Count;
 
-            return response;
+            return response;*/
+            throw new NotImplementedException();
         }
 
         public async Task<UserResponse.DetailKlant> GetDetailKlant(UserRequest.DetailKlant request)
         {
-            await Task.Delay(100);
+            /*await Task.Delay(100);
             List<ProjectDto.Index> projecten = new();
             UserResponse.DetailKlant response = new();
             Klant k = _klanten.Single(x => x.Id == request.KlantId);
@@ -90,7 +102,13 @@ namespace Services.Users
             {
                 response.Klant = new KlantDto.Detail { Id = -1 };
             }
-            return response;
+            return response;*/
+            throw new NotImplementedException ();
+        }
+
+        Task<UserResponse.Edit> IUserService.EditAsync(UserRequest.Edit request)
+        {
+            throw new NotImplementedException();
         }
 
         /*public async Task<UserResponse.AllAdminsIndex> GetAllAdminsIndex(UserRequest.AllAdminUsers request)

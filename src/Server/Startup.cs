@@ -36,8 +36,8 @@ public class Startup
         
         services.AddDbContext<HerExamenDBContext>(options =>
         {
-            options.UseSqlServer(Configuration.GetConnectionString("DotNet"));
-
+            options.UseSqlServer(Configuration.GetConnectionString("Dotnet"));
+            options.EnableSensitiveDataLogging(Configuration.GetValue<bool>("Logging:EnableSqlParameterLogging"));
         });
 
         services.AddLogging(log =>
@@ -46,9 +46,10 @@ public class Startup
             log.AddConsole();
         });
 
-        services.AddControllersWithViews();
+       
         services.AddHttpContextAccessor();
         services.AddTransient(sp => sp.GetRequiredService<IHttpContextAccessor>().HttpContext.User);
+        services.AddControllersWithViews();
         services.AddRazorPages();
         services.AddScoped<IUserService, UserService>();
         services.AddScoped<IProjectService, ProjectService>();
@@ -67,6 +68,7 @@ public class Startup
         }
         else
         {
+            app.UseExceptionHandler("/Error");
             app.UseHsts();
         }
 
@@ -83,7 +85,6 @@ public class Startup
         {
             endpoints.MapRazorPages();
             endpoints.MapControllers();
-           
             endpoints.MapFallbackToFile("index.html");
         });
     }

@@ -74,7 +74,7 @@ public class DataInitializer
         var klanten = UserFaker.Klant.Instance.Generate(15);
 
         DbContext.klanten.AddRange(klanten);
-        DbContext.gebruikers.AddRange(amins);
+        DbContext.admins.AddRange(amins);
         DbContext.SaveChanges();
     }
 
@@ -101,10 +101,7 @@ public class DataInitializer
 
     private void seedAdmins() 
     {
-        var admins = UserFaker.Administrators.Instance.Generate(2);
         var specialAdmin = new Administrator("Arthur", "L", "0474619443", "arthurlibberecht@gmail.com", "yowyow",AdminRole.BEHEREN);
-
-        DbContext.admins.AddRange(admins);
         DbContext.admins.Add(specialAdmin);
         DbContext.SaveChanges();
     }
@@ -113,10 +110,11 @@ public class DataInitializer
     {
         var proj = DbContext.projecten.ToList();
         var contracts = new List<VMContract>();
-        for(var i=0; i< proj.Count; i++)
+
+        foreach(var pro in proj)
         {
-            var klant = proj[i].Klant;
-            var vmList = proj[i].VirtualMachines;
+            var klant = pro.Klant;
+            var vmList = pro.VirtualMachines;
             foreach (var vm in vmList)
             {
                 var newCon = new VMContract(klant.Id, vm.Id, DateTime.Now.Subtract(TimeSpan.FromDays(RandomNumberGenerator.GetInt32(300))), DateTime.Now.AddDays(RandomNumberGenerator.GetInt32(200)));

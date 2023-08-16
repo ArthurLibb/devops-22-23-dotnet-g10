@@ -10,6 +10,11 @@ public static class UserResponse
         public int Total { get; set; }
     }
 
+    public class DetailAdmin
+    {
+        public AdminUserDto.Details Admin { get; set; }
+    }
+
     public class DetailKlant
     {
         public KlantDto.Detail Klant { get; set; }

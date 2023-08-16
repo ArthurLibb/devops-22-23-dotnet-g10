@@ -14,7 +14,6 @@ namespace Persistence.Configuration;
 public class HerExamenDBContext : DbContext
 {
 public DbSet<VirtualMachine> Virtualmachines => Set<VirtualMachine>();
-public DbSet<Gebruiker> gebruikers=> Set<Gebruiker>();
 public DbSet<Klant> klanten => Set<Klant>();
 public DbSet<InterneKlant> interneKlanten => Set<InterneKlant>();
 public DbSet<ExterneKlant> externeKlanten => Set<ExterneKlant>();

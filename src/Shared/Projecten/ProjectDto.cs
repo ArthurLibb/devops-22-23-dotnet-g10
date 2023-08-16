@@ -1,6 +1,7 @@
 using Domain.Users;
 using Domain.VirtualMachines.VirtualMachine;
 using FluentValidation;
+using Shared.Users;
 using Shared.VirtualMachines;
 
 namespace Shared.Projects;
@@ -11,7 +12,7 @@ public static class ProjectDto
     {
         public int Id { get; set; }
         public String Name { get; set; }
-        public Klant Klant { get; set; }
+        public KlantDto.Index Klant { get; set; }
 
     }
     public class Detail : Index

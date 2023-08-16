@@ -16,7 +16,11 @@ public static class AdminUserDto
         public string FirstName { get; set; }
         public string Password { get; set; }
         public AdminRole Role { get; set; }
-        public bool Actief { get; set; }
+    }
 
+    public class Details : Index
+    {
+        public string PhoneNumber { get; set; }
+        public string Email { get; set; }
     }
 }

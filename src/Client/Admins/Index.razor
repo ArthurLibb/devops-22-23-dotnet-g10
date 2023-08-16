@@ -1,0 +1,34 @@
+﻿@page "/beheerders"
+
+@if (Beheerders is null || Beheerders.Count() == 0)
+{
+    <p>Geen Beheerders...</p>
+}
+else
+{
+    <div class="card-body table is-striped is-hoverable">
+        <table>
+            <thead>
+                <th>Id</th>
+                <th>Naam</th>
+                <th>Role</th>
+                <th>Acties</th>
+            </thead>
+            @foreach (var b in Beheerders)
+            {
+                <tbody>
+                    <tr>
+                        <td>@b.Id</td>
+                        <td>@b.FirstName</td>
+                        <td>@b.Role.ToString().ToLower()</td>
+                        <td>
+                            <button @onclick="() => NavToDetailAdmin(b.Id)">
+                                Details
+                            </button>
+                        </td>
+                    </tr>
+                </tbody>
+            }
+        </table>    
+    </div>
+}

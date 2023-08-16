@@ -14,6 +14,6 @@ internal class EntityConfiguration<T> : IEntityTypeConfiguration<T> where T : En
     public virtual void Configure(EntityTypeBuilder<T> builder)
     {
         builder.ToTable(typeof(T).Name);
-        builder.Property(x => x.IsEnabled).IsRequired().HasDefaultValue(true).ValueGeneratedNever();
+        builder.HasKey(x => x.Id);
     }
 }

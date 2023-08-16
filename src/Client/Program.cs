@@ -28,19 +28,17 @@ namespace Client
             //builder.Services.AddScoped<IVMContractService, VMContractService>();
 
             //AUTHENTICATION
-            builder.Services.AddAuthorizationCore(options =>
-            {
-                options.AddPolicy("AdminOnly", policy => policy.RequireClaim(ClaimTypes.Role, "Admin-Consultant", "Admin-Beheer"));
-                options.AddPolicy("BeheerOnly", policy => policy.RequireClaim(ClaimTypes.Role, "Admin-Beheer"));
-                options.AddPolicy("LoggedIn", policy => policy.RequireAuthenticatedUser());
-                options.AddPolicy("Guest", policy => policy.RequireClaim(ClaimTypes.Name, "Guest"));
-            });
-
+             builder.Services.AddAuthorizationCore(options =>
+                        {
+                            options.AddPolicy("AdminOnly", policy => policy.RequireClaim(ClaimTypes.Role, "Admin-Consultant", "Admin-Beheer"));
+                            options.AddPolicy("BeheerOnly", policy => policy.RequireClaim(ClaimTypes.Role, "Admin-Beheer"));
+                            options.AddPolicy("LoggedIn", policy => policy.RequireAuthenticatedUser());
+                            options.AddPolicy("Guest", policy => policy.RequireClaim(ClaimTypes.Name, "Guest"));
+                        });
              //Disble both to do login via Auth0
             builder.Services.AddScoped<Shared.FakeAuthenticationProvider>();
             builder.Services.AddScoped<AuthenticationStateProvider>(provider => provider.GetRequiredService<Shared.FakeAuthenticationProvider>());
 
-            //builder.Services.AddHttpClient("AuthenticatedServerAPI", client => client.BaseAddress = new Uri(builder.HostEnvironment.BaseAddress));
             builder.Services.AddScoped(s => s.GetRequiredService<IHttpClientFactory>().CreateClient("Project.Api"));
             builder.Services.AddSidepanel();
             builder.Services.AddHttpClient("AuthenticatedServerAPI", client => client.BaseAddress = new Uri(builder.HostEnvironment.BaseAddress))
@@ -49,7 +47,6 @@ namespace Client
                    .CreateClient("AuthenticatedServerAPI"));
             builder.Services.AddScoped(sp => new HttpClient { BaseAddress = new Uri(builder.HostEnvironment.BaseAddress) });
             await builder.Build().RunAsync();
-
         }
     }
 }

@@ -33,11 +33,11 @@ namespace Client.VirtualMachines
         }
 
 
-        public async Task GetVirtualMachines(int id)
+        public async Task GetVirtualMachines(int projectId)
         {
             ProjectRequest.Detail request = new();
 
-            request.ProjectId = id;
+            request.ProjectId = projectId;
 
             var response = await ProjectService.GetDetailAsync(request);
             ProjectDto.Detail resp = new ProjectDto.Detail()
@@ -49,9 +49,7 @@ namespace Client.VirtualMachines
             };
 
 
-            _details.Add(id, resp);
-
-
+            _details.Add(projectId, resp);
         }
         public void NavigateToVMDetails(int id)
         {

@@ -113,7 +113,7 @@ else
         if (check)
         {
             Loading.Add(id);
-            await GetVirtualMachines(id);
+            await GetVirtualMachines(projectId: id);
             Loading.Remove(id);
         }
         StateHasChanged();

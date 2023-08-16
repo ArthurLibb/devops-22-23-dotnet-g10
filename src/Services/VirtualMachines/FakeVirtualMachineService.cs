@@ -27,7 +27,7 @@ namespace Services.VirtualMachines
         }
         public async Task<VirtualMachineResponse.GetDetail> GetDetailAsync(VirtualMachineRequest.GetDetail request)
         {
-            await Task.Delay(100);
+            /*await Task.Delay(100);
             VirtualMachineResponse.GetDetail response = new();
 
         
@@ -56,12 +56,13 @@ namespace Services.VirtualMachines
                     Id = -1
                 };
             }
-            return response;
+            return response;*/
+            throw new NotImplementedException();
         }
         
         public async Task<VirtualMachineResponse.GetIndex> GetIndexAsync(VirtualMachineRequest.GetIndex request)
         {
-            await Task.Delay(100);
+            /*await Task.Delay(100);
 
             VirtualMachineResponse.GetIndex response = new();
             var query = _virtualMachines.AsQueryable();
@@ -116,38 +117,41 @@ namespace Services.VirtualMachines
                 Mode = x.Mode
             }).ToList();
 
-            return response;
+            return response;*/
+
+            throw new NotImplementedException();
         }
         public async Task<VirtualMachineResponse.Edit> EditAsync(VirtualMachineRequest.Edit request)
         {
-            await Task.Delay(100);
+            /* await Task.Delay(100);
 
-            VirtualMachineResponse.Edit response = new();
-            var vm = _virtualMachines.SingleOrDefault(x => x.Id == request.VirtualMachineId);
+             VirtualMachineResponse.Edit response = new();
+             var vm = _virtualMachines.SingleOrDefault(x => x.Id == request.VirtualMachineId);
 
-            var model = request.VirtualMachine;
+             var model = request.VirtualMachine;
 
-            if (vm == null)
-            {
-                response.VM_Id = -1;
-            }
-            else
-            {
-                var name = model.Name;
-                var backup = model.Backup;
+             if (vm == null)
+             {
+                 response.VM_Id = -1;
+             }
+             else
+             {
+                 var name = model.Name;
+                 var backup = model.Backup;
 
-                vm.Name = name;
-                vm.BackUp = backup;
+                 vm.Name = name;
+                 vm.BackUp = backup;
 
-                response.VM_Id = vm.Id;
-            }
+                 response.VM_Id = vm.Id;
+             }
 
-            return response;
+             return response;*/
+            throw new NotImplementedException();
         }
 
         public async Task<VirtualMachineResponse.Create> CreateAsync(VirtualMachineRequest.Create request)
         {
-            await Task.Delay(100);
+            /*await Task.Delay(100);
             VirtualMachineResponse.Create response = new();
 
             var model = request.VirtualMachine;
@@ -165,21 +169,23 @@ namespace Services.VirtualMachines
 
             response.VM_Id = id;
 
-            return response;
+            return response;*/
+            throw new NotImplementedException();
 
         }
 
         public async Task<VirtualMachineResponse.Rapport> RapporteringAsync(VirtualMachineRequest.GetDetail request)
         {
-            await Task.Delay(100);
-            VirtualMachineResponse.Rapport response = new();
-            var vm = _virtualMachines.SingleOrDefault(x => x.Id == request.VirtualMachineId);
-            VirtualMachineDto.Rapportage dto = new();
-            dto.Statistics = vm.Statistics;
-            dto.Id = vm.Id;
-            dto.Name = vm.Name;
-            response.VirtualMachine = dto;
-            return response;
+            /* await Task.Delay(100);
+             VirtualMachineResponse.Rapport response = new();
+             var vm = _virtualMachines.SingleOrDefault(x => x.Id == request.VirtualMachineId);
+             VirtualMachineDto.Rapportage dto = new();
+             dto.Statistics = vm.Statistics;
+             dto.Id = vm.Id;
+             dto.Name = vm.Name;
+             response.VirtualMachine = dto;
+             return response;*/
+            throw new NotImplementedException();
 
         }
     }

@@ -26,6 +26,16 @@ namespace Services.Users
             klant.PhoneNumber = request.Klant.PhoneNumber;
         }
 
+        public Task<UserResponse.Edit> EditAsync(int id, UserRequest.Edit request)
+        {
+            throw new NotImplementedException();
+        }
+
+        public Task<UserResponse.DetailAdmin> GetAdminDetails(UserRequest.Detailadmin request)
+        {
+            throw new NotImplementedException();
+        }
+
         public Task<UserResponse.AllAdminsIndex> GetAllAdminsIndex(UserRequest.AllAdminUsers request)
         {
             throw new NotImplementedException();
@@ -50,7 +60,7 @@ namespace Services.Users
 
         public async Task<UserResponse.DetailKlant> GetDetailKlant(UserRequest.DetailKlant request)
         {
-            await Task.Delay(100);
+            /*await Task.Delay(100);
             List<ProjectDto.Index> projecten = new();
             UserResponse.DetailKlant response = new();
             Klant k = _klanten.Single(x => x.Id == request.KlantId);
@@ -89,7 +99,13 @@ namespace Services.Users
             {
                 response.Klant = new KlantDto.Detail { Id = -1 };
             }
-            return response;
+            return response;*/
+            throw new NotImplementedException();
+        }
+
+        Task<UserResponse.Edit> IUserService.EditAsync(UserRequest.Edit request)
+        {
+            throw new NotImplementedException();
         }
 
         /*public async Task<UserResponse.AllAdminsIndex> GetAllAdminsIndex(UserRequest.AllAdminUsers request)

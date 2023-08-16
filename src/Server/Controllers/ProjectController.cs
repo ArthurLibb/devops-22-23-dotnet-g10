@@ -22,10 +22,12 @@ public class ProjectController : ControllerBase
         return log;
     }
 
-    [HttpGet("id")]
-    public async Task<ProjectResponse.Detail> GetDetails(ProjectRequest.Detail request)
+    [HttpGet("{ProjectId}")]
+    public async Task<ProjectResponse.Detail> GetDetails([FromRoute] ProjectRequest.Detail request)
     {
+        Console.WriteLine($"-------- Start Controller get details proj met id = {request.ProjectId}--------\n");
         var proj = await _projectService.GetDetailAsync(request);
+        Console.WriteLine($"-------- End Controller get details proj id = {request.ProjectId}---------");
         return proj;
     }
 }

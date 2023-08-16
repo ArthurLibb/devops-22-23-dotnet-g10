@@ -12,12 +12,15 @@ public static class UserRequest
     }
     public class AllAdminUsers
     {
-        public List<AdminUserDto.Index> AdminUsers { get; set; }
-        public int Total { get; set; }
     }
     public class DetailKlant
     {
         public int KlantId { get; set; }
+    }
+
+    public class Detailadmin
+    {
+        public int AdminId { get; set; }
     }
 
     public class Edit

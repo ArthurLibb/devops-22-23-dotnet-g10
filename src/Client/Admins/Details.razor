@@ -1,0 +1,40 @@
+﻿@page "/beheerders/{Id:int}"
+
+@if (Loading)
+{
+    <div class="card-body center">
+        <span class="icon is-large">
+            <i class="fas fa-lg fa-solid fa-spinner fa-spin"></i>
+        </span>
+    </div>
+}
+else
+{
+    <h1>Details @Admin.FirstName @Admin.Name</h1>
+    <div class="card">
+        <div>
+            <label class="label">Voornaam:</label>
+            @Admin.FirstName
+        </div>
+        <div>
+            <label class="label">Achternaam:</label>
+            @Admin.Name
+        </div>
+        <div>
+            <label class="label">Email:</label>
+            @Admin.Email
+        </div>
+        <div>
+            <label class="label">Gsm-nummer:</label>
+            @Admin.PhoneNumber
+        </div>
+        <div>
+            <label class="label">Wachtwoord:</label>
+            @Admin.Password
+        </div>
+        <div>
+            <label class="label">Role:</label>
+            @Admin.Role
+        </div>
+    </div>
+}

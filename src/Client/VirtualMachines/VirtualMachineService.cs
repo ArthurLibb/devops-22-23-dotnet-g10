@@ -38,7 +38,8 @@ namespace Client.VirtualMachines
 
         public Task<VirtualMachineResponse.GetDetail> GetDetailAsync(VirtualMachineRequest.GetDetail request)
         {
-            throw new NotImplementedException();
+            var response = client.GetFromJsonAsync<VirtualMachineResponse.GetDetail>($"{endpoint}/{request.VirtualMachineId}");
+            return response;
         }
 
         public Task<VirtualMachineResponse.Rapport> RapporteringAsync(VirtualMachineRequest.GetDetail request)
