@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using Shared.Users;
 using System;
 using System.Threading.Tasks;
@@ -7,6 +8,7 @@ namespace Server.Controllers;
 
 [ApiController]
 [Route("api/[controller]")]
+[Authorize]
 public class UserController : ControllerBase
 {
     private readonly IUserService _userService;
@@ -40,6 +42,7 @@ public class UserController : ControllerBase
     }
 
     [HttpPut]
+    [Authorize(Roles = "Administrator")]
     public async Task<UserResponse.Create> UpdateKlant([FromBody] UserRequest.Edit request)
     {
         //var reponse = await _userService.EditAsync(request);

@@ -7,32 +7,8 @@
 
 <div class="@NavMenuCssClass" @onclick="ToggleNavMenu">
     <nav class="flex-column">
-        <AuthorizeView Policy="Guest">
             <div class="nav-item px-2">
-                <NavLink class="nav-link subtitle is-6" href="login">
-                    <span class="icon-text">
-                        <span class="icon is-medium">
-                            <i class="fas fa-sharp fa-solid fa-user"></i>
-                        </span>
-                        <span class="navtab-name">Log in</span>
-                    </span>
-                </NavLink>
-            </div>
-            <div class="nav-item px-2">
-                <NavLink class="nav-link subtitle is-6" href="register">
-                    <span class="icon-text">
-                        <span class="icon is-medium">
-                            <i class="fas fa-sharp fa-solid fa-address-card"></i>
-                        </span>
-                        <span class="navtab-name">Registreer</span>
-                    </span>
-                </NavLink>
-            </div>
-        </AuthorizeView>
-        <AuthorizeView Policy="LoggedIn">
-            <div class="nav-item px-2">
-                <NavLink class="nav-link subtitle is-6" href="klant/HIER_MOET_NOG_ID_DOORGEGEVEN_WORDEN"
-                    Match="NavLinkMatch.All">
+                <NavLink class="nav-link subtitle is-6" href="/" Match="NavLinkMatch.All">
                     <span class="icon-text">
                         <span class="icon is-medium">
                             <i class="fas fa-sharp fa-solid fa-user"></i>
@@ -61,21 +37,32 @@
                     </span>
                 </NavLink>
             </div>
-        </AuthorizeView>
-
-
-        <AuthorizeView Policy="AdminOnly">
-            <br />
-            <div class="nav-item px-2">
-                <NavLink class="nav-link subtitle is-6" href="klanten">
-                    <span class="icon-text">
+            <AuthorizeView Roles="Administrator">
+                <div class="nav-item px-2">
+                    <NavLink class="nav-link" href="auth0users">
+                         <span class="icon-text">
                         <span class="icon is-medium">
-                            <i class="fas fa-users"></i>
+                                 <i class="fi-people"></i>
+                            </span> 
+                            <span class="navtab-name">Auth0Users</span>
                         </span>
-                        <span class="navtab-name">Klanten</span>
-                    </span>
-                </NavLink>
-            </div>
+                    </NavLink>
+                </div>
+            </AuthorizeView>
+
+            <AuthorizeView Roles="Administrator">
+                <div class="nav-item px-2">
+                    <NavLink class="nav-link subtitle is-6" href="klanten">
+                        <span class="icon-text">
+                            <span class="icon is-medium">
+                                <i class="fas fa-users"></i>
+                            </span>
+                            <span class="navtab-name">Klanten</span>
+                        </span>
+                    </NavLink>
+                </div>
+            </AuthorizeView>
+            <AuthorizeView Roles="Administrator">
             <div class="nav-item px-2">
                 <NavLink class="nav-link subtitle is-6" href="beheerders">
                     <span class="icon-text">
@@ -86,6 +73,8 @@
                     </span>
                 </NavLink>
             </div>
+            </AuthorizeView>
+            <AuthorizeView Roles="Administrator">
             <div class="nav-item px-2">
                 <NavLink class="nav-link subtitle is-6" href="servers">
                     <span class="icon-text">
@@ -96,6 +85,7 @@
                     </span>
                 </NavLink>
             </div>
+            </AuthorizeView>
             <div class="nav-item px-2">
                 <NavLink class="nav-link subtitle is-6" href="beschikbaarheid">
                     <span class="icon-text">
@@ -107,8 +97,6 @@
                 </NavLink>
             </div>
 
-
-        </AuthorizeView>
 
     </nav>
 </div>

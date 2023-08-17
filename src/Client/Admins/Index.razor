@@ -1,4 +1,5 @@
 ﻿@page "/beheerders"
+@attribute [Authorize]
 
 @if (Beheerders is null || Beheerders.Count() == 0)
 {

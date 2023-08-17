@@ -1,5 +1,5 @@
 ﻿@page "/klanten"
-@attribute [Authorize(policy: "AdminOnly")]
+@attribute [Authorize]
 
 @if (Klanten is null || Klanten.Count() == 0)
 {

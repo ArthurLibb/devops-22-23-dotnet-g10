@@ -18,6 +18,7 @@ using Shared.Users;
 using Services.VirtualMachines;
 using Services.FysiekeServers;
 using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
 
 namespace Server;
 
@@ -45,11 +46,26 @@ public class Startup
             log.ClearProviders();
             log.AddConsole();
         });
+        services.AddAuthentication(options =>
+        {
+            options.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
+            options.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
+        }).AddJwtBearer(options =>
+        {
+            options.Authority = Configuration["Auth0:Authority"];
+            options.Audience = Configuration["Auth0:ApiIdentifier"];
+        });
 
-       
-        services.AddHttpContextAccessor();
-        services.AddTransient(sp => sp.GetRequiredService<IHttpContextAccessor>().HttpContext.User);
-        services.AddControllersWithViews();
+        services.AddAuth0AuthenticationClient(config =>
+        {
+            config.Domain = Configuration["Auth0:Authority"];
+            config.ClientId = Configuration["Auth0:ClientId"];
+            config.ClientSecret = Configuration["Auth0:ClientSecret"];
+        });
+
+        services.AddAuth0ManagementClient().AddManagementAccessToken();
+
+
         services.AddRazorPages();
         services.AddScoped<IUserService, UserService>();
         services.AddScoped<IProjectService, ProjectService>();
@@ -77,7 +93,9 @@ public class Startup
         app.UseHttpsRedirection();
         app.UseBlazorFrameworkFiles();
         app.UseStaticFiles();
+
         app.UseRouting();
+
         app.UseAuthentication();
         app.UseAuthorization();
 
