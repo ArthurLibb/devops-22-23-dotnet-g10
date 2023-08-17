@@ -17,7 +17,9 @@ public class ProjectController : ControllerBase
         this._projectService = projectenSerivce;
     }
 
+
     [HttpGet]
+    [Authorize(Roles = "Administrator")]
     public async Task<ProjectResponse.All> GetAllProjects()
     {
         var log = await _projectService.GetIndexAsync(new ProjectRequest.All());

@@ -1,4 +1,5 @@
 ﻿@page "/klant/{Id:int}"
+@using Smart.Blazor
 @attribute [Authorize]
 
 @if (Loading)
@@ -69,22 +70,33 @@ else
                                 }
                             </div>
                             <div>
-                                <p class="label">Contcatpersoon: </p>
-                                @if (Klant.contactPersoon is not null)
+                                @if (Klant.contactPersoon.FirstName is not null || Klant.contactPersoon.LastName is not null 
+                                || Klant.contactPersoon.PhoneNumber is not null || Klant.contactPersoon.Email is not null)
                                 {
-
+                                    <br />
+                                    <h4>Contactpersoon: </h4>
+                                    <div>
+                                        <label class="label">Voornaam Contactpersoon</label>
+                                        <input type="text" class="input" readonly value="@Klant.contactPersoon.FirstName">
+                                    </div>
+                                    <div>
+                                        <label class="label">Achternaam Contactpersoon</label>
+                                        <input type="text" class="input" readonly value="@Klant.contactPersoon.LastName">
+                                    </div>
                                     <div>
                                         <label class="label">Email Contactpersoon</label>
-                                        <input class="input" readonly type="@Klant.contactPersoon.Email">
+                                        <input type="text" class="input" readonly value="@Klant.contactPersoon.Email">
                                     </div>
                                     <div>
                                         <label class="label">Gsm-nummer Contactpersoon</label>
-                                        <input class="input" readonly type="@Klant.contactPersoon.PhoneNumber">
+                                        <input type="text" class="input" readonly value="@Klant.contactPersoon.PhoneNumber">
                                     </div>
                                 }
                                 else
                                 {
-                                    <p class="input">Deze klant heeft geen contactpersoon</p>
+                                    <div>
+                                        <p>Deze klant heeft geen contactpersoon</p>
+                                    </div>
                                 }
                             </div>
                         </div>
@@ -112,10 +124,7 @@ else
                             </div>
                             @if (model.Opleiding is not null)
                             {
-                                @*        <div>
-                <label>Opleiding</label>
-                <InputText class="input" @bind-Value="@model.Opleiding"/>
-                </div>*@
+
                             }
                             else
                             {
@@ -125,20 +134,27 @@ else
                                 </div>
 
                             }
-                            @if (model.contactPersoon is not null)
-                            {
                                 <div>
-                                    <p class="label">Contcatpersoon: </p>
+                                    <br/>
+                                    <h4>Contactpersoon: </h4>
+                                    <div>
+                                        <label class="label">Voornaam Contactpersoon</label>
+                                        <InputText class="input" @bind-Value="@model.contactPersoon.FirstName" />
+                                    </div>
+                                    <div>
+                                        <label class="label">Achternaam Contactpersoon</label>
+                                        <InputText class="input" @bind-Value="@model.contactPersoon.LastName" />
+                                    </div>
                                     <div>
                                         <label class="label">Email Contactpersoon</label>
-                                        <InputText class="input" readonly type="@model.contactPersoon.Email" />
+                                        <InputText class="input" @bind-Value="@model.contactPersoon.Email" />
                                     </div>
                                     <div>
                                         <label class="label">Gsm-nummer Contactpersoon</label>
-                                        <InputText class="input" readonly type="@model.contactPersoon.PhoneNumber" />
+                                        <InputText class="input" @bind-Value="@model.contactPersoon.PhoneNumber" />
                                     </div>
                                 </div>
-                            }
+                               
                             <button class="button mt-2" type="submit" @onclick="@EditKlant">Klant wijzigen</button>
                         </EditForm>
                     }

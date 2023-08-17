@@ -25,8 +25,8 @@ public static class KlantDto
         public string? Bedrijf { get; set; }
         public Course? Opleiding { get; set; }
         public List<ProjectDto.Index> Projects { get; set; }
-        public ContactDetails? contactPersoon { get; set; }
-        public ContactDetails? ReserveContactPersoon { get; set; }
+        public ContactdetailsDto.Index? contactPersoon { get; set; }
+        public ContactdetailsDto.Index? ReserveContactPersoon { get; set; }
     }
 
     public class Mutate
@@ -37,15 +37,15 @@ public static class KlantDto
         [Required(ErrorMessage = "Je moet een naam ingeven.")]
         public string Name { get; set; }
         [Required(ErrorMessage = "Je moet een gsm-nummer ingeven.")]
-        [BelgianPhoneNumber]
+        [Phone(ErrorMessage = "Je moet een correct gsm-nummer ingeven.")]
         public string PhoneNumber { get; set; }
-        [Required(ErrorMessage = "Je moet een email ingeven.")]
-        [EmailAddress]
+        [Required(ErrorMessage = "Je moet een e-mail ingeven.")]
+        [EmailAddress(ErrorMessage = "Je moet een correcte e-mail")]
         [DataType(DataType.EmailAddress)]
         public string Email { get; set; }
         public Course? Opleiding { get; set; }
         public string? Bedrijf { get; set; }
-        public ContactDetails? contactPersoon { get; set; }
-        public ContactDetails? ReserveContactPersoon { get; set; }
+        public ContactdetailsDto.Index? contactPersoon { get; set; }
+        public ContactdetailsDto.Index? ReserveContactPersoon { get; set; }
     }
 }

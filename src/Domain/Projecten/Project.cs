@@ -16,8 +16,9 @@ namespace Domain.Projecten
 
         private string _name;
         private Klant _klant;
+        private string _Auth0Id;
 
-
+        public String Auth0Id { get { return _Auth0Id; } set {_Auth0Id = value;} }
         public String Name { get { return _name; } set { _name = Guard.Against.NullOrEmpty(value, nameof(_name)); } }
         public Klant Klant { get { return _klant; } set { _klant = Guard.Against.Null(value, nameof(_klant)); } }
         public List<VirtualMachine> VirtualMachines { get { return _vms; } set { _vms = Guard.Against.Null(value, nameof(_vms)); } }

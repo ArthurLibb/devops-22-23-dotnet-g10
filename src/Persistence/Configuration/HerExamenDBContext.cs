@@ -7,6 +7,7 @@ using Domain.VirtualMachines.BackUp;
 using Domain.Projecten;
 using Domain.VirtualMachines.Contract;
 using Domain.Server;
+using Domain.Common;
 
 namespace Persistence.Configuration;
 
@@ -23,6 +24,7 @@ public DbSet<Project> projecten => Set<Project>();
 public DbSet<VMContract> vMContracts=> Set<VMContract>();
 public DbSet<FysiekeServer> fysiekeServers=> Set<FysiekeServer>();
 public DbSet<Administrator> admins => Set<Administrator>();
+public DbSet<ContactDetails> contactDetails => Set<ContactDetails>();
 
 public HerExamenDBContext(DbContextOptions<HerExamenDBContext> options) : base(options){ }
 protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)

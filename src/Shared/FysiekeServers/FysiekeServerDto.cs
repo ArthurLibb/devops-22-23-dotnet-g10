@@ -15,14 +15,11 @@ namespace Shared.Servers
             public int Id { get; set; }
             public String Name { get; set; }
             public String ServerAddress { get; set; }
-            public Hardware Hardware { get; set; }
-            public Hardware HardWareAvailable { get; set; }
 
         }
 
-        public class Detail
+        public class Detail : Index
         {
-            public int Id { get; set; }
             public List<VirtualMachineDto.Rapportage> VirtualMachines { get; set; }
         }
 

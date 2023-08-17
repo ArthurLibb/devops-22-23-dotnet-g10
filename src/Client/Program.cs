@@ -8,6 +8,8 @@ using Client.VirtualMachines;
 using Shared.Users;
 using Client.Users;
 using Client.Shared;
+using Shared.Servers;
+using Client.Servers;
 
 namespace Client
 {
@@ -23,7 +25,7 @@ namespace Client
             builder.Services.AddScoped<IVirtualMachineService, VirtualMachineService>();
             builder.Services.AddScoped<IUserService, UsersService>();
             builder.Services.AddScoped<IProjectService, ProjectService>();
-            //builder.Services.AddScoped<IFysiekeServerService, FysiekeServerService>();
+            builder.Services.AddScoped<IFysiekeServerService, FysiekeServicerService>();
             //builder.Services.AddScoped<IVMContractService, VMContractService>();
 
 

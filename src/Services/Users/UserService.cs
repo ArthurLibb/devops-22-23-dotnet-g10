@@ -1,6 +1,7 @@
 ﻿using Auth0.ManagementApi;
 using Auth0.ManagementApi.Models;
 using Auth0.ManagementApi.Paging;
+using Domain.Common;
 using Domain.Users;
 using Microsoft.EntityFrameworkCore;
 using Persistence.Configuration;
@@ -18,10 +19,41 @@ public class UserService : IUserService
     {
         _dbContext = dBContext;
     }
-    public Task<UserResponse.Edit> EditAsync(UserRequest.Edit request)
+    public async Task<UserResponse.Edit> EditAsync(UserRequest.Edit request)
     {
-        throw new NotImplementedException();
+        var klant = await _dbContext.klanten.FirstAsync(k => k.Id == request.KlantId);
+
+        if (klant is not null)
+        {
+            klant.Name = request.Klant.Name;
+            klant.FirstName = request.Klant.FirstName;
+            klant.Email = request.Klant.Email;
+            klant.PhoneNumber = request.Klant.PhoneNumber;
+
+            if (klant is ExterneKlant)
+            {
+                ExterneKlant kl = await _dbContext.externeKlanten.Include(k => k.ContactPersoon).
+                                                                Include(k => k.TweedeContactPersoon)
+                                                                .FirstOrDefaultAsync(k => k.Id == request.KlantId);
+                kl.Bedrijfsnaam = request.Klant.Bedrijf;
+                if (!HasNullOrEmptyAttributes(request.Klant.contactPersoon))
+                {
+                    kl.ContactPersoon = new ContactDetails
+                    {
+                        FirstName = request.Klant.contactPersoon.FirstName,
+                        LastName = request.Klant.contactPersoon.LastName,
+                        PhoneNumber = request.Klant.contactPersoon.PhoneNumber,
+                        Email = request.Klant.contactPersoon.Email,
+                    };
+                }
+                _dbContext.Entry(kl).State = EntityState.Modified;
+            }
+            _dbContext.Entry(klant).State = EntityState.Modified;
+            await _dbContext.SaveChangesAsync();
+        }
+        return new UserResponse.Edit{ Id = klant.Id};
     }
+
 
     public async Task<UserResponse.DetailAdmin> GetAdminDetails(UserRequest.Detailadmin request)
     {
@@ -59,11 +91,9 @@ public class UserService : IUserService
 
     public async Task<UserResponse.DetailKlant> GetDetailKlant(UserRequest.DetailKlant request)
     {
-        UserResponse.DetailKlant response = new();
         var klant = await _dbContext.klanten.FirstAsync(k => k.Id == request.KlantId);
         if (klant is null) return null;
-
-        KlantDto.Detail details = new();
+        UserResponse.DetailKlant details = new();
         details.Name = klant.Name; 
         details.Email = klant.Email;
         details.PhoneNumber = klant.PhoneNumber; 
@@ -79,10 +109,41 @@ public class UserService : IUserService
                                                                 Include(k => k.TweedeContactPersoon)
                                                                 .FirstOrDefaultAsync(k => k.Id == request.KlantId);
             details.Bedrijf = kl.Bedrijfsnaam;
-            details.contactPersoon = kl.ContactPersoon;
-            details.ReserveContactPersoon = kl.TweedeContactPersoon;
+            details.contactPersoon = new ContactdetailsDto.Index 
+            { 
+                FirstName = kl.ContactPersoon?.FirstName,                                                            
+                LastName = kl.ContactPersoon?.LastName,          
+                PhoneNumber = kl.ContactPersoon?.PhoneNumber,                                                 
+                Email = kl.ContactPersoon?.Email 
+            };
+            details.ReserveContactPersoon = new ContactdetailsDto.Index
+            {
+                FirstName = kl.TweedeContactPersoon?.FirstName,
+                LastName = kl.TweedeContactPersoon?.LastName,
+                PhoneNumber = kl.TweedeContactPersoon?.PhoneNumber,
+                Email = kl.TweedeContactPersoon?.Email
+            };
         }
-        response.Klant = details;
-        return response;
+
+        return details;
+    }
+
+    public static bool HasNullOrEmptyAttributes(ContactdetailsDto.Index obj)
+    {
+        var properties = typeof(ContactdetailsDto.Index).GetProperties();
+
+        foreach (var property in properties)
+        {
+            if (property.PropertyType == typeof(string))
+            {
+                string value = (string)property.GetValue(obj);
+                if (string.IsNullOrEmpty(value))
+                {
+                    return true; 
+                }
+            }
+        }
+
+        return false;
     }
 }

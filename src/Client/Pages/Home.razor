@@ -7,7 +7,8 @@
         <h1>Your profile</h1>
         @foreach (var claim in context.User.Claims)
         {
-            <p>@claim.Type - @claim.Value</p>
+            <label class="label">@claim.Type:</label>
+            <p>@claim.Value</p>
         }
     </Authorized>
     <NotAuthorized>

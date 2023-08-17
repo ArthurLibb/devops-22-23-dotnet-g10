@@ -1,9 +1,17 @@
 ﻿@page "/klanten"
 @attribute [Authorize]
 
-@if (Klanten is null || Klanten.Count() == 0)
+@if (Loading)
 {
-    <p>Geen klanten...</p>
+    <div class="card-body center">
+        <span class="icon is-large">
+            <i class="fas fa-lg fa-solid fa-spinner fa-spin"></i>
+        </span>
+    </div>
+}
+else if (Klanten is null || Klanten.Count() == 0)
+{
+    <p>Er zijn geen klanten...</p>
 }
 else
 {

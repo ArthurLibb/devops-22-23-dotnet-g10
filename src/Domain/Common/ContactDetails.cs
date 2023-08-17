@@ -27,7 +27,6 @@ namespace Domain.Common
             this.Email = email;
             this.FirstName = fName;
             this.LastName = lName;
-
         }
 
     }

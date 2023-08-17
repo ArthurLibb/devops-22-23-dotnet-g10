@@ -15,10 +15,8 @@ public static class UserResponse
         public AdminUserDto.Details Admin { get; set; }
     }
 
-    public class DetailKlant
-    {
-        public KlantDto.Detail Klant { get; set; }
-    }
+    public class DetailKlant :  KlantDto.Detail { }
+
 
     public class Edit
     {

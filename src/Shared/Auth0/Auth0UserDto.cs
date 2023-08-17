@@ -16,5 +16,10 @@ public static class Auth0UserDto
         public string LastName { get; set; }
         public bool Blocked { get; set; }
     }
+
+    public class Details : Index
+    {
+        public string Roles { get; set; }
+    }
 }
 

@@ -13,8 +13,6 @@ namespace Server.Controllers;
 
 [ApiController]
 [Route("[controller]")]
-[Authorize(Roles = "Administrator")]
-
 public class Auth0UserController : ControllerBase
 {
     private readonly IManagementApiClient _managementApiClient;
@@ -25,6 +23,7 @@ public class Auth0UserController : ControllerBase
     }
 
     [HttpGet]
+    [Authorize(Roles = "Administrator")]
     public async Task<IEnumerable<Auth0UserDto.Index>> GetUsers()
     {
         var users = await _managementApiClient.Users.GetAllAsync(new GetUsersRequest(), new PaginationInfo());
@@ -35,6 +34,15 @@ public class Auth0UserController : ControllerBase
             LastName = x.LastName,
             Blocked = x.Blocked ?? false,
         });
+
     }
+
+    /*[HttpGet("roles")]
+    public async Task<IEnumerable<Auth0UserDto.Index>> getRolesUser()
+    {
+        var rolesUser = await _managementApiClient.Users.GetRolesAsync()
+    }
+*/
+
 }
 

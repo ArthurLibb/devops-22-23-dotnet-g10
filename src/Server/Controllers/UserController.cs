@@ -41,15 +41,17 @@ public class UserController : ControllerBase
         return admins;
     }
 
-    [HttpPut]
+    [HttpPut("{KlantId}")]
     [Authorize(Roles = "Administrator")]
-    public async Task<UserResponse.Create> UpdateKlant([FromBody] UserRequest.Edit request)
+    public async Task<UserResponse.Edit> UpdateKlant([FromBody] UserRequest.Edit request)
     {
-        //var reponse = await _userService.EditAsync(request);
-        return null;
+        Console.WriteLine($"----Start Update klant controller id ={request.KlantId}----");
+        var reponse = await _userService.EditAsync(request);
+        Console.WriteLine($"----End Update klant controller----");
+        return reponse;
     }
 
-    [HttpGet("/admin/{AdminId}")]
+    [HttpGet("admin/{AdminId}")]
     public async Task<UserResponse.DetailAdmin> GetDetailsAdmin([FromRoute] UserRequest.Detailadmin request)
     {
         Console.WriteLine($"------Start Controller Get deatils admin id = {request.AdminId}------\n");

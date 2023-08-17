@@ -87,7 +87,8 @@ public class DataInitializer
         var project2 = new Project("Tweede Proj");
         var project3 = new Project("Dit is ook een project");
 
-        project1.Klant = customers[0];
+
+        project1.Klant = customers[4];
         project2.Klant = customers[1];
         project3.Klant = customers[2];
 
@@ -117,9 +118,9 @@ public class DataInitializer
             var vmList = pro.VirtualMachines;
             foreach (var vm in vmList)
             {
-                var newCon = new VMContract(klant.Id, vm.Id, DateTime.Now.Subtract(TimeSpan.FromDays(RandomNumberGenerator.GetInt32(300))), DateTime.Now.AddDays(RandomNumberGenerator.GetInt32(200)));
-                vm.Contract= newCon;
-                contracts.Add(newCon);
+                    var newCon = new VMContract(klant.Id, vm.Id, DateTime.Now.Subtract(TimeSpan.FromDays(RandomNumberGenerator.GetInt32(300))), DateTime.Now.AddDays(RandomNumberGenerator.GetInt32(200)));
+                    vm.Contract = newCon;
+                    contracts.Add(newCon);
             }
         }
         DbContext.vMContracts.AddRange(contracts);

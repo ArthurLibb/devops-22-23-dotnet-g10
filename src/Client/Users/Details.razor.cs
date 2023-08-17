@@ -1,35 +1,41 @@
-﻿using Microsoft.AspNetCore.Components;
+﻿using Domain.Common;
+using Microsoft.AspNetCore.Components;
 using Shared.Users;
 
 namespace Client.Users;
 
 public partial class Details
 {
-    private KlantDto.Mutate model = new();
-    public bool Loading = false;
-    public bool Edit = false;
-    public bool Intern = false;
-    private KlantDto.Detail Klant;
     [Parameter] public int Id { get; set; }
     [Inject] public IUserService UserService { get; set; }
 
+    private ContactdetailsDto.Index contactDetails = new();
+    private KlantDto.Mutate model = new();
+    private KlantDto.Detail Klant;
+    public bool Edit = false;
+
+    public bool Loading = false;
+    public bool Intern = false;
+
     protected override async Task OnInitializedAsync()
     {
+        
         await GetKlantAsync();
         ObjectToMutate();
+
     }
 
     private async Task GetKlantAsync()
     {
         Loading = true;
-        var request = new UserRequest.DetailKlant();
-        request.KlantId = Id;
-        var response = await UserService.GetDetailKlant(request);
-        Klant = response.Klant;
+        var request = new UserRequest.DetailKlant { KlantId = Id};
+        Klant = await UserService.GetDetailKlant(request);
+
         if (Klant.Opleiding is not null)
         {
             Intern = true;
         }
+
         Loading = false;
     }
     public void Toggle()
@@ -37,29 +43,15 @@ public partial class Details
         Edit = !Edit;
     }
 
-    /*    private async void CheckboxChanged()
-        {
-            if (!Edit)
-            {
-                GetKlantAsync();
-                Console.WriteLine(Loading);
-                Loading = false;
-            }
-
-        }*/
-
     private async void EditKlant()
     {
+        model.contactPersoon = contactDetails;
+        UserRequest.Edit request = new(){KlantId = Id,Klant = model};
 
-        UserRequest.Edit request = new()
-        {
-            KlantId = Klant.Id,
-            Klant = model
-        };
-        await UserService.EditAsync(request);
-
-        var response = await UserService.GetDetailKlant(new UserRequest.DetailKlant() { KlantId = Klant.Id });
-        Klant = response.Klant;
+        var User = await UserService.EditAsync(request);
+        Klant = await UserService.GetDetailKlant(new UserRequest.DetailKlant() { KlantId = User.Id });
+        ObjectToMutate();
+        Toggle();
     }
 
     public void ObjectToMutate()
@@ -76,6 +68,10 @@ public partial class Details
         {
             model.Bedrijf = Klant.Bedrijf;
         }
-
+        if(Klant.contactPersoon is not null)
+        {
+            contactDetails = Klant.contactPersoon;
+            model.contactPersoon = Klant.contactPersoon;
+        }
     }
 }

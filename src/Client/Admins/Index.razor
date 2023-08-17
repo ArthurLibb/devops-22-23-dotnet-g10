@@ -1,7 +1,14 @@
 ﻿@page "/beheerders"
 @attribute [Authorize]
-
-@if (Beheerders is null || Beheerders.Count() == 0)
+@if(Loading)
+{
+    <div class="card-body center">
+        <span class="icon is-large">
+            <i class="fas fa-lg fa-solid fa-spinner fa-spin"></i>
+        </span>
+    </div>
+}
+else if (Beheerders is null || Beheerders.Count() == 0)
 {
     <p>Geen Beheerders...</p>
 }

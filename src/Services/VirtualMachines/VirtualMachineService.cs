@@ -56,7 +56,7 @@ namespace Services.VirtualMachines
                     OperatingSystem = vm.OperatingSystem,
                     Contract = new VMContractDto.Index { Id = vm.Contract.Id, EndDate = vm.Contract.EndDate, StartDate = vm.Contract.StartDate, KlantId = vm.Contract.CustomerId },
                     BackUp = vm.BackUp,
-                    FysiekeServer = new FysiekeServerDto.Index { Id = vm.FysiekeServer.Id, Name =  vm.FysiekeServer.Naam, Hardware = vm.Hardware, ServerAddress = vm.FysiekeServer.ServerAddress, HardWareAvailable = vm.Hardware },
+                    FysiekeServer = new FysiekeServerDto.Index { Id = vm.FysiekeServer.Id, Name =  vm.FysiekeServer.Naam, ServerAddress = vm.FysiekeServer.ServerAddress},
                     VMConnection = new VMConnectionDto.Index { FQDN = vm.Connection.FQDN, Hostname = vm.Connection.Hostname.ToString(), Password = vm.Connection.Password, Username = vm.Connection.Username }
                 };
             }

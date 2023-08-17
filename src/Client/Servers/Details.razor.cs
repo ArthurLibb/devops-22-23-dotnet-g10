@@ -11,9 +11,10 @@ namespace Client.Servers;
 public partial class Details
 {
     [Parameter] public int Id { get; set; }
-
     [Inject] IFysiekeServerService Service { get; set; }
-    private FysiekeServerDto.Detail server;
+
+    private bool Load = true;
+    private FysiekeServerDto.Detail? server;
     private List<VirtualMachineDto.Rapportage> virtualMachinesServer = new();
     public Dictionary<int, bool> Collapsed { get; set; } = new Dictionary<int, bool>();
     public List<int> Loading { get; set; } = new();
@@ -24,6 +25,7 @@ public partial class Details
         var response = await Service.GetDetailsAsync(request);
         server = response.Server;
         virtualMachinesServer = server.VirtualMachines;
+        Load = false;
     }
 
     public async void Toggle(int id)

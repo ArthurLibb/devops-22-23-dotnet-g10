@@ -1,61 +1,35 @@
 ﻿using Client.Extentions;
 using Client.Infrastructure;
 using Domain.Server;
+using Shared.Servers;
 using System.Globalization;
 using System.Net.Http.Json;
 using System.Text.Json;
 
 namespace Client.Servers
 {
-    public class FysiekeServicerService
+    public class FysiekeServicerService : IFysiekeServerService
     {
 
-    }
-}
-   /* 
-    public class FysiekeServerService : IFysiekeServerService
-    {
         private readonly HttpClient _httpClient;
-
-        private readonly IHttpClientFactory _IHttpClientFactory;
-
         private const string endpoint = "api/fysiekeserver";
 
-        public FysiekeServerService(HttpClient _httpClient, IHttpClientFactory _IHttpClientFactory)
+        public FysiekeServicerService(HttpClient _httpClient)
         {
             this._httpClient = _httpClient;
-            this._IHttpClientFactory = _IHttpClientFactory;
-
-
+        }
+        public Task<FysiekeServerResponse.Launched> DeployVirtualMachine(FysiekeServerRequest.Approve request)
+        {
+            throw new NotImplementedException();
         }
 
-        public async Task<FysiekeServerResponse.GetIndex> GetIndexAsync(FysiekeServerRequest.GetIndex request)
+        public async Task<FysiekeServerResponse.Available> GetAllServers()
         {
-            //var queryParameters = request.GetQueryString();
-            var HttpClient = _IHttpClientFactory.CreateClient("AuthenticatedServerAPI");
-
-            var response = await HttpClient.GetFromJsonAsync<FysiekeServerResponse.GetIndex>($"{endpoint}");
+            var response = await _httpClient.GetFromJsonAsync<FysiekeServerResponse.Available>($"{endpoint}");
             return response;
-
-
         }
 
-        public Task<FysiekeServerResponse.GetDetail> GetDetailAsync(FysiekeServerRequest.GetDetail request)
-        {
-            throw new NotImplementedException();
-        }
-
-        public Task DeleteAsync(FysiekeServerRequest.Delete request)
-        {
-            throw new NotImplementedException();
-        }
-
-        public Task<FysiekeServerResponse.Create> CreateAsync(FysiekeServerRequest.Create request)
-        {
-            throw new NotImplementedException();
-        }
-
-        public Task<FysiekeServerResponse.Edit> EditAsync(FysiekeServerRequest.Edit request)
+        public Task<FysiekeServerResponse.ResourcesAvailable> GetAvailableHardWareOnDate(FysiekeServerRequest.Date date)
         {
             throw new NotImplementedException();
         }
@@ -65,34 +39,16 @@ namespace Client.Servers
             throw new NotImplementedException();
         }
 
-        public Task<FysiekeServerResponse.Launched> DeployVirtualMachine(FysiekeServerRequest.Approve request)
+        public async Task<FysiekeServerResponse.Details> GetDetailsAsync(FysiekeServerRequest.Detail request)
         {
-            throw new NotImplementedException();
-        }
-
-        public Task<FysiekeServerResponse.Details> GetDetailsAsync(FysiekeServerRequest.Detail request)
-        {
-            throw new NotImplementedException();
-        }
-
-
-        public async Task<FysiekeServerResponse.ResourcesAvailable> GetAvailableHardWareOnDate(FysiekeServerRequest.Date date)
-        {
-            var HttpClient = _IHttpClientFactory.CreateClient("AuthenticatedServerAPI");
-
-            var response = await HttpClient.GetFromJsonAsync<FysiekeServerResponse.ResourcesAvailable>($"{endpoint}");
-            return response;
-
-        }
-
-        public async Task<FysiekeServerResponse.GraphValues> GetGraphValueForServer(FysiekeServerRequest.GetIndex request)
-        {
-            var HttpClient = _IHttpClientFactory.CreateClient("AuthenticatedServerAPI");
-
-            var response = await HttpClient.GetFromJsonAsync<FysiekeServerResponse.GraphValues>($"{endpoint}");
+            var response = await _httpClient.GetFromJsonAsync<FysiekeServerResponse.Details>($"{endpoint}/{request.ServerId}");
             return response;
         }
 
+        public Task<FysiekeServerResponse.GraphValues> GetGraphValueForServer()
+        {
+            throw new NotImplementedException();
+        }
     }
-
-}*/
+}
+  

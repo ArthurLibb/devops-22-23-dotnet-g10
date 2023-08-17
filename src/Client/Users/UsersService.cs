@@ -33,9 +33,8 @@ namespace Client.Users
         }
         public async Task<UserResponse.Edit> EditAsync(UserRequest.Edit request)
         {
-            var response = await client.PutAsJsonAsync($"{endpoint}", request);
-            if (response.IsSuccessStatusCode) return await response.Content.ReadFromJsonAsync<UserResponse.Edit>();
-            return null;
+            var response = await client.PutAsJsonAsync($"{endpoint}/{request.KlantId}", request);
+            return await response.Content.ReadFromJsonAsync<UserResponse.Edit>();
         }
 
         public async Task<UserResponse.DetailAdmin> GetAdminDetails(UserRequest.Detailadmin request)

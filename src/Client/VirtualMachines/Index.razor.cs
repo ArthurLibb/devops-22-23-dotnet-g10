@@ -6,12 +6,13 @@ using Microsoft.AspNetCore.Components.Web;
 using JetBrains.Annotations;
 using System;
 using Microsoft.AspNetCore.Components.Routing;
-
+using Microsoft.AspNetCore.Components.Authorization;
 
 namespace Client.VirtualMachines
 {
     public partial class Index
     {
+        [Inject] public AuthenticationStateProvider AuthenticationStateProvider { get; set; }
         [Inject] public IProjectService ProjectService { get; set; }
         [Inject] public ISidepanelService Sidepanel { get; set; }
 

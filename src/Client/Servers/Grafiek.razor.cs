@@ -6,6 +6,7 @@ using ChartJs.Blazor.Common.Handlers;
 using ChartJs.Blazor.LineChart;
 using ChartJs.Blazor.Util;
 using Domain.Common;
+using Domain.Statistics;
 using Domain.Statistics.Datapoints;
 using Domain.VirtualMachines.Statistics;
 using Microsoft.AspNetCore.Components;
@@ -19,7 +20,7 @@ namespace Client.Servers
     public partial class Grafiek
     {
         [Inject] IVirtualMachineService VirtualMachineService { get; set; }
-        [Parameter] public int Id { get; set; }
+        [Parameter] public Statistic stats { get; set; }
 
         private Dictionary<DateTime, Hardware> _data = new();
         private VirtualMachineDto.Rapportage vm;
@@ -28,15 +29,9 @@ namespace Client.Servers
         protected override async Task OnInitializedAsync()
         {
             Loading = true;
-            await getVirtualmachine();
-            vm.Statistics.GetFakeStatistics(StatisticsPeriod.DAILY).ForEach(e => _data.Add(e.Key, new Hardware(e.Value.HardWareInUse.Memory, e.Value.HardWareInUse.Storage, e.Value.HardWareInUse.Amount_vCPU)));
+            _data.Add(key: stats.StartTime, value: stats.Hardware);
+            _data.Add(key: stats.EndTime, value: stats.Hardware);
             Loading = false;
-        }
-
-        private async Task getVirtualmachine()
-        {
-            var response = await VirtualMachineService.RapporteringAsync(new VirtualMachineRequest.GetDetail { VirtualMachineId = Id });
-            vm = response.VirtualMachine;
         }
 
     }

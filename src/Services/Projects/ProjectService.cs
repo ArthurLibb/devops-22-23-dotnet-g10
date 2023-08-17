@@ -48,8 +48,7 @@ namespace Services.Projecten
             {
                 projects = await _dbContext.projecten.Include(p => p.VirtualMachines).ThenInclude(v => v.Contract).ToListAsync();
             }
-            Console.WriteLine(projects.Count);
-            Console.WriteLine(projects.ToArray());
+
             foreach(var p in projects)
             {
                 var klant = await getKlantfromProject(p);

@@ -2,7 +2,16 @@
 @using Client.Servers.Component
 @attribute [Authorize]
 
-<h5>Virtualmachines van server</h5>
+@if (Load)
+{
+    <div class="card-body center">
+        <span class="icon is-large">
+            <i class="fas fa-lg fa-solid fa-spinner fa-spin"></i>
+        </span>
+    </div>
+}
+else{
+<h5>Virtualmachines van server : @server.Name - @server.ServerAddress</h5>
 <div class="accordion">
     @foreach (var vm in virtualMachinesServer)
     {
@@ -26,10 +35,10 @@
             else if (Collapsed.ContainsKey(vm.Id) && Collapsed[vm.Id])
             {
                 <div class="card-body">
-                    <Grafiek Id="vm.Id"></Grafiek>
+                    <Grafiek stats="@vm.Statistics"></Grafiek>
                 </div>
             }
         </div>
     }
-
 </div>
+}
