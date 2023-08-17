@@ -103,6 +103,11 @@ namespace Services.Users
             throw new NotImplementedException();
         }
 
+        public Task<UserResponse.CurrentUser> GetUserByEmail(string email)
+        {
+            throw new NotImplementedException();
+        }
+
         Task<UserResponse.Edit> IUserService.EditAsync(UserRequest.Edit request)
         {
             throw new NotImplementedException();
