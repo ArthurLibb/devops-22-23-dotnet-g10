@@ -146,4 +146,12 @@ public class UserService : IUserService
 
         return false;
     }
+
+    public async Task<UserResponse.CurrentUser> GetUserByEmail(string email)
+    {
+        var user = await _dbContext.gebruikers.FirstOrDefaultAsync(k => k.Email == email);
+        if(user == null) { return null; }
+        var response = new UserResponse.CurrentUser{ UserId = user.Id, Email = user.Email, Password = user.Password };
+        return response;
+    }
 }

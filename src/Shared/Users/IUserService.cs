@@ -7,4 +7,5 @@ public interface IUserService
     Task<UserResponse.AllAdminsIndex> GetAllAdminsIndex(UserRequest.AllAdminUsers request);
     Task<UserResponse.Edit> EditAsync(UserRequest.Edit request);
     Task<UserResponse.DetailAdmin> GetAdminDetails(UserRequest.Detailadmin request);
+    Task<UserResponse.CurrentUser> GetUserByEmail(string email);
 }

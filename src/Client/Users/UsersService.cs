@@ -42,5 +42,10 @@ namespace Client.Users
             var response = await client.GetFromJsonAsync<UserResponse.DetailAdmin>($"{endpoint}/admin/{request.AdminId}");
             return response;
         }
+
+        public Task<UserResponse.CurrentUser> GetUserByEmail(string email)
+        {
+            throw new NotImplementedException();
+        }
     }
 }
