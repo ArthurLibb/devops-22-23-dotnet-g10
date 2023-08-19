@@ -47,13 +47,7 @@ public class DataInitializer
         DbContext.backups.AddRange(backups);
         DbContext.SaveChanges();
 
-        var connections = vms.Select(e => e.Connection);
-        DbContext.connections.AddRange(connections);
-        DbContext.SaveChanges();
-
         var servers = vms.Select(e => e.FysiekeServer);
-
-
         vms.ForEach(e =>
         {
             string name = e.FysiekeServer.Naam;

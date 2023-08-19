@@ -63,7 +63,6 @@ namespace Domain.VirtualMachines.VirtualMachine
 
             });
 
-            RuleFor(x => x.Connection, _ => new VMConnection("MOCK-FQDN", GetRandomIpAddress(), "MOCK-USER", password));
             RuleFor(x => x.Mode, x => x.PickRandom<VirtualMachineMode>());
             RuleFor(x => x.Contract, _ => contract);
             RuleFor(x => x.FysiekeServer, _ => generateServer());
@@ -75,7 +74,6 @@ namespace Domain.VirtualMachines.VirtualMachine
             if(_fysiekeServers.Count < ewaServers.Count)
             {
                 var aServer = ewaServers.ElementAt(_fysiekeServers.Count);
-
                 FysiekeServer newServer = new FysiekeServer(aServer.Key, aServer.Value);
                 _fysiekeServers.Add(newServer);
                 return newServer;

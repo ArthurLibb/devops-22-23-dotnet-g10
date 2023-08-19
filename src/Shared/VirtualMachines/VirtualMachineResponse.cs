@@ -9,10 +9,7 @@ namespace Shared.VirtualMachines
 
         }
 
-        public class GetDetail
-        {
-            public VirtualMachineDto.Detail VirtualMachine { get; set; }
-        }
+        public class GetDetail :  VirtualMachineDto.Detail { }
 
         public class Delete
         {

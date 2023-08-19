@@ -31,18 +31,7 @@ public static class ProjectDto
     public class Mutate
     {
         public String Name { get; set; }
-        public Klant Klant { get; set; }
+        public int KlantId { get; set; }
 
-
-        public class Validator : AbstractValidator<Mutate>
-        {
-            public Validator()
-            {
-                RuleFor(x => x.Name).NotEmpty().Length(5, 50);
-                RuleFor(x => x.Klant).NotNull();
-                RuleFor(x => x.Klant.Id).NotNull();
-
-            }
-        }
     }
 }

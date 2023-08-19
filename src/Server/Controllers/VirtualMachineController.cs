@@ -1,13 +1,13 @@
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Shared.VirtualMachines;
+using System;
 using System.Threading.Tasks;
 
 namespace Server.Controllers;
 
 [ApiController]
 [Route("api/[controller]")]
-[Authorize]
 public class VirtualMachineController : ControllerBase
 {
     private readonly IVirtualMachineService virtualMachineService;
@@ -25,15 +25,26 @@ public class VirtualMachineController : ControllerBase
     }
 
     [HttpGet("{VirtualMachineId}")]
+    [Authorize(Roles = "Administrator")]
     public Task<VirtualMachineResponse.GetDetail> GetDetailAsync([FromRoute] VirtualMachineRequest.GetDetail request)
     {
         return virtualMachineService.GetDetailAsync(request);
     }
 
     [HttpDelete("{VirtualMachineId}")]
+    [Authorize(Roles = "Administrator")]
     public Task DeleteAsync([FromRoute] VirtualMachineRequest.Delete request)
     {
         return virtualMachineService.DeleteAsync(request);
+    }
+
+    [HttpGet("customer/{Id}")]
+    public async Task<ActionResult<VirtualMachineResponse.GetDetail>> GetDetailsAsync([FromRoute] int id)
+    {
+        Console.WriteLine($"----Getting vm detais with id={id}----");
+        var requestObj = new VirtualMachineRequest.GetDetail { VirtualMachineId = id };
+        var response = await virtualMachineService.GetDetailAsync(requestObj);
+        return Ok(response);
     }
 
     [HttpPost]

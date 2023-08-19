@@ -41,12 +41,12 @@ namespace Services.Projecten
 
             if (!string.IsNullOrWhiteSpace(request.SearchTerm))
             {
-                projects = await _dbContext.projecten.Include( p => p.VirtualMachines).ThenInclude(v => v.Contract).ToListAsync();
+                projects = await _dbContext.projecten.Include(p => p.Klant).Include( p => p.VirtualMachines).ThenInclude(v => v.Contract).ToListAsync();
                 projects = projects.FindAll(e => e.Name.Contains(request.SearchTerm, StringComparison.OrdinalIgnoreCase) || e.Klant.Name.Contains(request.SearchTerm, StringComparison.OrdinalIgnoreCase));
             }
             else
             {
-                projects = await _dbContext.projecten.Include(p => p.VirtualMachines).ThenInclude(v => v.Contract).ToListAsync();
+                projects = await _dbContext.projecten.Include(p => p.Klant).Include(p => p.VirtualMachines).ThenInclude(v => v.Contract).ToListAsync();
             }
 
             foreach(var p in projects)
@@ -66,7 +66,7 @@ namespace Services.Projecten
             List<VirtualMachineDto.Index> vms = new();
             ProjectResponse.Detail response = new();
 
-            Project project = await _dbContext.projecten.Include(p => p.VirtualMachines).ThenInclude(v => v.Contract).SingleOrDefaultAsync(p => p.Id == request.ProjectId);
+            Project project = await _dbContext.projecten.Include(p => p.Klant).Include(p => p.VirtualMachines).ThenInclude(v => v.Contract).SingleOrDefaultAsync(p => p.Id == request.ProjectId);
 
             if(project == null)
             {
@@ -89,16 +89,14 @@ namespace Services.Projecten
             throw new NotImplementedException();
         }
 
-        public Task<ProjectResponse.Create> CreateAsync(ProjectRequest.Create request)
+        public async Task<ProjectResponse.Create> CreateAsync(ProjectRequest.Create request)
         {
-            /* ProjectResponse.Create response = new();
-             var project = _projecten.Add(new Project(
-                 request.Project.Name
-             ));
-             await _dbContext.SaveChangesAsync();
-             response.ProjectenId = project.Entity.Id;
-             return response;*/
-            throw new NotImplementedException();
+             ProjectResponse.Create response = new();
+            var klant = await _dbContext.klanten.FirstAsync(klant => klant.Id == request.KlantId);
+            if(klant == null ) { return null; }
+            var project = _dbContext.projecten.Add(new Project { Klant = klant, Name = request.Name });
+            await _dbContext.SaveChangesAsync();
+            return new ProjectResponse.Create { ProjectId = project.Entity.Id};
         }
 
         public Task<ProjectResponse.Edit> EditAsync(ProjectRequest.Edit request)
@@ -127,22 +125,14 @@ namespace Services.Projecten
         private async Task<KlantDto.Index> getKlantfromProject(Project proj)
         {
             var resp = new KlantDto.Index();
-            var id = proj.VirtualMachines.First(v => v.Contract.CustomerId > 0 && v.Contract.CustomerId != null)?.Contract.CustomerId;
-           
-
+            var klant = await _dbContext.klanten.FirstOrDefaultAsync(k => k.Id == proj.Klant.Id);
             Console.WriteLine("Getting klant from porj");
-            Console.WriteLine(id);
-
-            if(id!= null)
-            {
-                var klant = await _dbContext.klanten.FirstOrDefaultAsync(k => k.Id == id);
-                resp.FirstName = klant.FirstName;
-                resp.Name = klant.Name;
-                resp.Id = klant.Id;
-                resp.Email = klant.Email;
-                resp.PhoneNumber = klant.PhoneNumber;
-            }
-
+            Console.WriteLine(klant.Id);
+            resp.FirstName = klant.FirstName;
+            resp.Name = klant.Name;
+            resp.Id = klant.Id;
+            resp.Email = klant.Email;
+            resp.PhoneNumber = klant.PhoneNumber;
 
             return resp;
         }

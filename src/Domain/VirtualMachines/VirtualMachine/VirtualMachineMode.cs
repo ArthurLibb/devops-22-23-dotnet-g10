@@ -8,8 +8,8 @@ namespace Domain.VirtualMachines.VirtualMachine
 {
     public enum VirtualMachineMode
     {
-        WAITING_APPROVEMENT,       // No connection || No server
-        READY,                     // has connection && server
+        WAITING_APPROVEMENT,       
+        READY,                    
         RUNNING,
         PAUSED,
         STOPPED

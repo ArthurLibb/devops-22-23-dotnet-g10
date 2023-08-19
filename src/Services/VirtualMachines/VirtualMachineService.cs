@@ -11,6 +11,7 @@ using Persistence.Configuration;
 using Shared.VMContracts;
 using Shared.Servers;
 using Shared.VMConnection;
+using Azure;
 
 namespace Services.VirtualMachines
 {
@@ -39,35 +40,34 @@ namespace Services.VirtualMachines
         public async Task<VirtualMachineResponse.GetDetail> GetDetailAsync(VirtualMachineRequest.GetDetail request)
         {
             Console.WriteLine($"-----Getting VM detail in service id ={request.VirtualMachineId}");
-            VirtualMachineResponse.GetDetail response = new();
+            var response = new VirtualMachineResponse.GetDetail();
             VirtualMachine? vm = await _dbContext.Virtualmachines.Include(v => v.BackUp).Include(v => v.Connection)
                                                                     .Include(v => v.Contract).Include(v => v.FysiekeServer)
                                                                     .SingleOrDefaultAsync(v => v.Id == request.VirtualMachineId);
-
             if (vm is not null)
             {
-                response.VirtualMachine = new VirtualMachineDto.Detail
-                {
-                    Id = vm.Id,
-                    Name = vm.Name,
-                    Mode = vm.Mode,
+                response.Id = vm.Id;
+                response.Name = vm.Name;
+                response.Mode = vm.Mode;
 
-                    Hardware = vm.Hardware,
-                    OperatingSystem = vm.OperatingSystem,
-                    Contract = new VMContractDto.Index { Id = vm.Contract.Id, EndDate = vm.Contract.EndDate, StartDate = vm.Contract.StartDate, KlantId = vm.Contract.CustomerId },
-                    BackUp = vm.BackUp,
-                    FysiekeServer = new FysiekeServerDto.Index { Id = vm.FysiekeServer.Id, Name =  vm.FysiekeServer.Naam, ServerAddress = vm.FysiekeServer.ServerAddress},
-                    VMConnection = new VMConnectionDto.Index { FQDN = vm.Connection.FQDN, Hostname = vm.Connection.Hostname.ToString(), Password = vm.Connection.Password, Username = vm.Connection.Username }
-                };
+                response.Hardware = vm.Hardware;
+                response.OperatingSystem = vm.OperatingSystem;
+                response.Contract = new VMContractDto.Index { Id = vm.Contract.Id, EndDate = vm.Contract.EndDate, StartDate = vm.Contract.StartDate, KlantId = vm.Contract.CustomerId };
+                response.BackUp = vm.BackUp;
+                response.FysiekeServer = new FysiekeServerDto.Index { Id = vm.FysiekeServer.Id, Name = vm.FysiekeServer.Naam, ServerAddress = vm.FysiekeServer.ServerAddress };
+                response.VMConnection = new VMConnectionDto.Index { FQDN = vm.Connection.FQDN, Hostname = vm.Connection.Hostname.ToString(), Password = vm.Connection.Password, Username = vm.Connection.Username };
             }
             else
             {
-                response.VirtualMachine = new VirtualMachineDto.Detail
-                {
-                    Id = -1
-                };
+                response.Id = -1;
             }
             return response;
+        }
+
+        public Task<VirtualMachineResponse.GetIndex> GetVirtualmachineByProjectId(int projectId)
+        {
+            //_dbContext.Virtualmachines.Where(v => v.Pro)
+                throw new NotImplementedException();
         }
 
         public Task<VirtualMachineResponse.GetIndex> GetIndexAsync(VirtualMachineRequest.GetIndex request)

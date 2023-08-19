@@ -19,8 +19,7 @@ public partial class Detail
     {
         var request = new VirtualMachineRequest.GetDetail();
         request.VirtualMachineId = Id;
-        var response = await vmService.GetDetailAsync(request);
-        Virtualmachine = response.VirtualMachine;
+        Virtualmachine = await vmService.GetDetailAsync(request);
         Initialized = true;
     }
 
