@@ -70,6 +70,5 @@ public static class VirtualMachineDto
             }
         }
 
-
     }
 }

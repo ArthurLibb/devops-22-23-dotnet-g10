@@ -91,7 +91,7 @@ public class UserService : IUserService
 
     public async Task<UserResponse.DetailKlant> GetDetailKlant(UserRequest.DetailKlant request)
     {
-        var klant = await _dbContext.klanten.FirstAsync(k => k.Id == request.KlantId);
+        var klant = await _dbContext.gebruikers.FirstAsync(k => k.Id == request.KlantId);
         if (klant is null) return null;
         UserResponse.DetailKlant details = new();
         details.Name = klant.Name; 
@@ -103,7 +103,7 @@ public class UserService : IUserService
         {
             details.Opleiding = ((InterneKlant)klant).Opleiding;
         }
-        else
+        else if(klant is ExterneKlant)
         {
             ExterneKlant kl = await _dbContext.externeKlanten.Include(k => k.ContactPersoon).
                                                                 Include(k => k.TweedeContactPersoon)
@@ -154,4 +154,6 @@ public class UserService : IUserService
         var response = new UserResponse.CurrentUser{ UserId = user.Id, Email = user.Email, Password = user.Password };
         return response;
     }
+
+
 }

@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 namespace Server.Controllers;
 
 [ApiController]
-[Route("/api/[controller]")]
+[Route("api/[controller]")]
 public class LoginController : ControllerBase
 {
     private readonly IAuthenticationService authenticationService;
@@ -16,19 +16,22 @@ public class LoginController : ControllerBase
         this.authenticationService = authenticationService;
     }
 
-    [HttpPost("login")]
+    [HttpPost("android")]
     public async Task<ActionResult<AuthenticationResponse>> Login([FromBody] AuthenticationRequest.Login request)
     {
+        Console.WriteLine($"-----Loggin in with {request.Email} {request.Password}-----");
         var reponse =await authenticationService.Login(request);
-        if(reponse == null || !reponse.Correct) { return StatusCode(403); }
-        return Ok(reponse.Correct);
+        if(reponse == null) { return StatusCode(403); }
+        Console.WriteLine($"return: {Ok(reponse)}");
+        return Ok(reponse);
     }
 
-    [HttpPost]
+    [HttpPost("register")]
     public async Task<ActionResult<AuthenticationResponse>> Register([FromBody] AuthenticationRequest.Register request)
     {
-        //var response = await authenticationService.Register(request);
-        throw new NotImplementedException();
+        Console.WriteLine($"-----Registering User with:\n {request.FirstName} & {request.LastName} \n {request.PhoneNumber} & {request.Email} & {request.Password}-----");
+        var response = await authenticationService.Register(request);
+        return Ok(response);
     }
 
 }

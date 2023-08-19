@@ -15,5 +15,6 @@ namespace Shared.Projects
         Task DeleteAsync(ProjectRequest.Delete request);
         Task<ProjectResponse.Create> CreateAsync(ProjectRequest.Create request);
         Task<ProjectResponse.Edit> EditAsync(ProjectRequest.Edit request);
+        Task<ProjectResponse.App> GetProjectsByUserId(int id);
     }
 }

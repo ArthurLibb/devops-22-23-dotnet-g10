@@ -19,6 +19,11 @@ using Services.VirtualMachines;
 using Services.FysiekeServers;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Shared.Authentication;
+using Microsoft.AspNetCore.Authentication;
+using Client.Pages;
+using Client.Users.Auth0;
+using System.Text.RegularExpressions;
 
 namespace Server;
 
@@ -68,6 +73,7 @@ public class Startup
 
         services.AddRazorPages();
         services.AddScoped<IUserService, UserService>();
+        services.AddScoped<Shared.Authentication.IAuthenticationService, Services.Auth.AuthenticationService>();
         services.AddScoped<IProjectService, ProjectService>();
         services.AddScoped<IVirtualMachineService, VirtualMachineService>();
         services.AddScoped<IFysiekeServerService, FysiekeServerService>();
@@ -90,7 +96,6 @@ public class Startup
 
         dataInitializer.Seed();
 
-        app.UseHttpsRedirection();
         app.UseBlazorFrameworkFiles();
         app.UseStaticFiles();
 

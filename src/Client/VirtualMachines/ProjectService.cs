@@ -43,5 +43,10 @@ namespace Client.VirtualMachines
             var response = await client.GetFromJsonAsync<ProjectResponse.All>($"{endpoint}");
             return response;
         }
+
+        public Task<ProjectResponse.App> GetProjectsByUserId(int id)
+        {
+            throw new NotImplementedException();
+        }
     }
 }

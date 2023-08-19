@@ -8,7 +8,6 @@ namespace Server.Controllers;
 
 [ApiController]
 [Route("api/[controller]")]
-[Authorize]
 public class UserController : ControllerBase
 {
     private readonly IUserService _userService;
@@ -35,6 +34,7 @@ public class UserController : ControllerBase
     }
 
     [HttpGet("admins")]
+    [Authorize(Roles = "Administrator")]
     public async Task<UserResponse.AllAdminsIndex> GetAllAdmins()
     {
         var admins = await _userService.GetAllAdminsIndex(new UserRequest.AllAdminUsers());
@@ -58,5 +58,22 @@ public class UserController : ControllerBase
         var admin = await _userService.GetAdminDetails(request);
         Console.WriteLine($"------End Controller Get deatils admin------\n");
         return admin;
+    }
+
+    [HttpGet("android/{Id}")]
+    public async Task<ActionResult<UserResponse.DetailKlant>> GetUserById(int id)
+    {
+        Console.WriteLine($"----Getting user with id={id}-----");
+        var request = new UserRequest.DetailKlant { KlantId = id};
+        var user = await _userService.GetDetailKlant(request);
+        return user;
+    }
+
+    [HttpPut("android/{Id}")]
+    public async Task<ActionResult<UserResponse.Edit>> UpdateUser([FromBody] UserRequest.Edit request)
+    {
+        Console.WriteLine($"----Udpating user with id={request.KlantId}");
+        var reponse = await _userService.EditAsync(request);
+        return reponse;
     }
 }

@@ -2,6 +2,6 @@
 
 public class AuthenticationResponse
 {
-    public bool Correct { get; set; }
+    public int Id { get; set; }
 
 }

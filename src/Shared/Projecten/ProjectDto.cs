@@ -21,6 +21,13 @@ public static class ProjectDto
 
     }
 
+    public class App
+    {
+        public int Id { get; set; } 
+        public String Name { get; set; }
+        public List<VirtualMachineDto.Index> VirtualMachines { get; set; }
+    }
+
     public class Mutate
     {
         public String Name { get; set; }

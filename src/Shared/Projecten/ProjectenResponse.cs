@@ -16,6 +16,11 @@ namespace Shared.Projects
             public int Total { get; set; }
         }
 
+        public class App
+        {
+            public List<ProjectDto.App> Projects { get; set; }
+        }
+
         public class Detail
         {
             public ProjectDto.Detail Project { get; set; }

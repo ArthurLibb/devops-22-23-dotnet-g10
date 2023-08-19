@@ -146,5 +146,28 @@ namespace Services.Projecten
 
             return resp;
         }
+
+        public async Task<ProjectResponse.App> GetProjectsByUserId(int id)
+        {
+            List<ProjectDto.App> correctProjects = new();
+            var projects = await _dbContext.projecten.Where(p => p.Klant.Id == id).Include(p => p.VirtualMachines).ToListAsync();
+            projects.ForEach(p =>
+            {
+                List<VirtualMachineDto.Index> vms = new();
+                p.VirtualMachines.ForEach(v => vms.Add(new VirtualMachineDto.Index { Id = v.Id, Mode = v.Mode, Name = v.Name }));
+                var proj = new ProjectDto.App
+                {
+                    VirtualMachines = vms,
+                    Id = p.Id,
+                    Name = p.Name
+                };
+                correctProjects.Add(proj);
+            });
+            
+
+
+            var resp = new ProjectResponse.App{ Projects = correctProjects };
+            return resp;
+        }
     }
 }
