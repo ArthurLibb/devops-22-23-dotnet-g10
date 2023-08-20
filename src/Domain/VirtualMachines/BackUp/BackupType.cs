@@ -15,6 +15,26 @@ namespace Domain.VirtualMachines.BackUp
         WEEKLY,
         MONTHLY,
     }
+    public static class BetterFormat
+    {
+        public static String GetString(this BackUpType type)
+        {
+            switch (type)
+            {
+                case BackUpType.CUSTOM:
+                    return "Custom";
+                case BackUpType.DAILY:
+                    return "Dagelijks";
+                case BackUpType.WEEKLY:
+                    return "Wekelijks";
+                case BackUpType.MONTHLY:
+                    return "Maandelijks";
+
+                default: throw new ArgumentException("No Case for: " + type.ToString());
+
+            }
+        }
+    }
 }
 
 

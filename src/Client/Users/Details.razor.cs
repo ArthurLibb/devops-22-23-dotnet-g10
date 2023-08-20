@@ -12,8 +12,8 @@ public partial class Details
     private ContactdetailsDto.Index contactDetails = new();
     private KlantDto.Mutate model = new();
     private KlantDto.Detail Klant;
-    public bool Edit = false;
 
+    public bool Edit = false;
     public bool Loading = false;
     public bool Intern = false;
 
@@ -47,11 +47,13 @@ public partial class Details
     {
         model.contactPersoon = contactDetails;
         UserRequest.Edit request = new(){KlantId = Id,Klant = model};
+        await UserService.EditAsync(request);
 
-        var User = await UserService.EditAsync(request);
-        Klant = await UserService.GetDetailKlant(new UserRequest.DetailKlant() { KlantId = User.Id });
+        Klant = await UserService.GetDetailKlant(new UserRequest.DetailKlant() { KlantId = Id });
+
         ObjectToMutate();
         Toggle();
+        StateHasChanged();
     }
 
     public void ObjectToMutate()
@@ -60,14 +62,8 @@ public partial class Details
         model.Name = Klant.Name;
         model.Email = Klant.Email;
         model.PhoneNumber = Klant.PhoneNumber;
-        if (Klant.Opleiding is not null)
-        {
-            model.Opleiding = Klant.Opleiding;
-        }
-        else
-        {
-            model.Bedrijf = Klant.Bedrijf;
-        }
+        model.Opleiding = Klant.Opleiding;
+        model.Bedrijf = Klant.Bedrijf;
         if(Klant.contactPersoon is not null)
         {
             contactDetails = Klant.contactPersoon;

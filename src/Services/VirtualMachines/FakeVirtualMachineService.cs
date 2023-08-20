@@ -188,5 +188,10 @@ namespace Services.VirtualMachines
             throw new NotImplementedException();
 
         }
+
+        public Task<VirtualMachineResponse.GetIndex> GetVirtualMachinesByProjectId(int id)
+        {
+            throw new NotImplementedException();
+        }
     }
 }

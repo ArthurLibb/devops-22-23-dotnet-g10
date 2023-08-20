@@ -10,6 +10,7 @@ using FluentValidation;
 using Shared.VMContracts;
 using Shared.Servers;
 using Shared.VMConnection;
+using System.ComponentModel.DataAnnotations;
 
 namespace Shared.VirtualMachines;
 
@@ -46,29 +47,21 @@ public static class VirtualMachineDto
     }
     public class Mutate
     {
+        [Required(ErrorMessage = "Je moet een naam ingeven.")]
+        [StringLength(20, ErrorMessage = "Naam is te lang")]
         public String Name { get; set; }
+        [Required(ErrorMessage = "Alles van hardware moet ingegeven zijn.")]
         public Hardware Hardware { get; set; }
+        [Required(ErrorMessage = "Er moet een operatingsysteem zijn opgegeven.")]
         public OperatingSystemEnum OperatingSystem { get; set; }
+        [Required(ErrorMessage = "Je moet een back type aanduiden.")]
         public Backup Backup { get; set; }
-        public Project Project { get; set; }
+        [Required(ErrorMessage = "Selecteer een project.")]
+        public int ProjectId { get; set; }
+        [Required(ErrorMessage = "Geef een startdatum.")]
         public DateTime Start { get; set; }
+        [Required(ErrorMessage = "Geef een einddatum..")]
         public DateTime End { get; set; }
-
-        public class Validator : AbstractValidator<Mutate>
-        {
-            public Validator()
-            {
-                RuleFor(x => x.Name).NotEmpty().Length(5, 50);
-                RuleFor(x => x.Hardware.Amount_vCPU).LessThan(50);
-                RuleFor(x => x.Hardware.Storage).NotEmpty();
-                RuleFor(x => x.Hardware.Memory).NotEmpty();
-                RuleFor(x => x.Project).NotNull();
-                RuleFor(x => x.Start).NotEmpty();
-                RuleFor(x => x.End).NotEmpty();
-                RuleFor(x => x.Backup.Type).NotNull();
-
-            }
-        }
 
     }
 }

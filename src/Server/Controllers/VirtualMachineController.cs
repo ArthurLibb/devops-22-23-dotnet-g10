@@ -47,10 +47,20 @@ public class VirtualMachineController : ControllerBase
         return Ok(response);
     }
 
-    [HttpPost]
-    public Task<VirtualMachineResponse.Create> CreateAsync([FromBody] VirtualMachineRequest.Create request)
+    [HttpGet("project/{Id}")]
+    public async Task<ActionResult<VirtualMachineResponse.GetIndex>> GetVirtualmachineProjectsAsync([FromRoute] int id)
     {
-        return virtualMachineService.CreateAsync(request);
+        Console.WriteLine($"----Getting vms of project with id={id}----");
+        var response = await virtualMachineService.GetVirtualMachinesByProjectId(id);
+        return Ok(response);
+    }
+
+    [HttpPost]
+    public async Task<ActionResult<VirtualMachineResponse.Create>> CreateAsync([FromBody] VirtualMachineRequest.Create request)
+    {
+        Console.WriteLine($"---creating vm with these name= ${request.VirtualMachine.Name} for user={request.CustomerId}----");
+        var response = await virtualMachineService.CreateAsync(request);
+        return Ok(response);
     }
 
     [HttpPut]

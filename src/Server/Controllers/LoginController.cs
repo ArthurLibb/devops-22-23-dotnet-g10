@@ -21,7 +21,7 @@ public class LoginController : ControllerBase
     {
         Console.WriteLine($"-----Loggin in with {request.Email} {request.Password}-----");
         var reponse =await authenticationService.Login(request);
-        if(reponse == null) { return StatusCode(403); }
+        if (reponse == null) { return new AuthenticationResponse{Id = -1 }; }
         Console.WriteLine($"return: {Ok(reponse)}");
         return Ok(reponse);
     }

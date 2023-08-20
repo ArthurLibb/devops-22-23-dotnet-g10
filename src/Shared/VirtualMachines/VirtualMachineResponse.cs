@@ -18,7 +18,7 @@ namespace Shared.VirtualMachines
 
         public class Create
         {
-            public int VM_Id { get; set; }
+            public int VirtualmachineId { get; set; }
         }
 
         public class Edit

@@ -23,8 +23,4 @@ public partial class Index
     {
         NavigationManager.NavigateTo($"klant/{id}");
     }
-    public void Toast()
-    {
-
-    }
 }

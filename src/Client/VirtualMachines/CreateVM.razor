@@ -1,183 +1,177 @@
 ﻿@page "/virtualmachines/add"
+@using Domain.VirtualMachines.BackUp;
+@using Microsoft.AspNetCore.Components
 @attribute [Authorize]
 
-<form method="post">
+
+<AuthorizeView Context="authContext">
+    <Authorized>
+    @if (Loading)
+    {
+        <div class="card-body center">
+            <span class="icon is-large">
+                <i class="fas fa-lg fa-solid fa-spinner fa-spin"></i>
+            </span>
+        </div>
+    }else if (AskForLogin)
+    {
+        <Login ReturnUserId="@HandleGettingUserId" OnShowParameterChanged="@HandleShowParameterChanged"/>
+    }
+    else
+    {
     <h1 class="title is-3">Virtual Machine</h1>
     <h1 class="title is-4">Algemeen</h1>
-    <div class="field columns">
-        <div class="column">
-            <label class="label">Project</label>
-            <div class="control is-expanded has-icons-left">
-                <div class="select is-primary is-fullwidth">
-                    <select>
-                        <option>Project A</option>
-                        <option>Project B</option>
-                        <option>Project C</option>
-                        <option>Project D</option>
-                        <option>Project E</option>
-                        <option>Project F</option>
-                    </select>
-                </div>
-                <div class="icon is-small is-left">
-                    <i class="fas fa-folder"></i>
-                </div>
-            </div>
-        </div>
-        <div class="column">
-            <label class="label">Naam</label>
-            <p class="control has-icons-left">
-                <input name="lastName" class="input" type="text" value="" placeholder="Naam VM">
-                <span class="icon is-small is-left">
-                    <i class="fas fa-computer"></i>
-                </span>
-            </p>
-        </div>
-    </div>
-    <div class="field columns">
-        <div class="column">
-            <label class="label">Hardware Template</label>
-            <div class="control has-icons-left">
-                <div class="select is-primary is-fullwidth">
-                    <select>
-                        <option>Geen</option>
-                        <option>Klein</option>
-                        <option selected>Standaard</option>
-                        <option>Groot</option>
-                    </select>
-                </div>
-                <div class="icon is-small is-left">
-                    <i class="fas fa-map"></i>
-                </div>
-            </div>
-        </div>
-        <div class="column">
-            <label class="label">Backup</label>
-            <div class="control has-icons-left">
-                <div class="select is-primary is-fullwidth">
-                    <select>
-                        <option>Geen</option>
-                        <option>Dagelijks</option>
-                        <option>Wekelijks</option>
-                        <option>Maandelijks</option>
-                    </select>
-                </div>
-                <div class="icon is-small is-left">
-                    <i class="fas fa-server"></i>
-                </div>
-            </div>
-        </div>
-    </div>
-    <h1 class="title is-4">Hardware</h1>
-    <div class="field columns">
-        <div class="column">
-            <label class="label">Besturingssysteem</label>
-            <div class="control has-icons-left">
-                <div class="select is-primary is-fullwidth">
-                    <select>
-                        <option>Windows</option>
-                        <option>Linux</option>
-                        <option>MacOS</option>
-                    </select>
-                </div>
-                <div class="icon is-small is-left">
-                    <i class="fas fa-globe"></i>
-                </div>
-            </div>
-        </div>
-        <div class="column">
-            <label class="label">RAM</label>
-            <div class="control has-icons-left">
-                <div class="select is-primary is-fullwidth">
-                    <select>
-                        <option>4 Gb</option>
-                        <option>8 Gb</option>
-                        <option>16 Gb</option>
-                        <option>32 Gb</option>
-                    </select>
-                </div>
-                <div class="icon is-small is-left">
-                    <i class="fas fa-server"></i>
-                </div>
-            </div>
-        </div>
-    </div>
-    <div class="field columns">
-        <div class="column">
-            <label class="label">Opslag</label>
-            <div class="control has-icons-left">
-                <div class="select is-primary is-fullwidth">
-                    <select>
-                        <option>64 Gb</option>
-                        <option>128 Gb</option>
-                        <option>256 Gb</option>
-                        <option>512 Gb</option>
-                        <option>1024 Gb</option>
-                    </select>
-                </div>
-                <div class="icon is-small is-left">
-                    <i class="fas fa-hard-drive"></i>
-                </div>
-            </div>
-        </div>
-        <div class="column">
-            <label class="label">CPU's</label>
-            <div class="control is-expanded has-icons-left">
-                <input class="input has-text-right" type="number" placeholder="1" min="1">
-                <span class="icon is-left">
-                    <i class="fas fa-microchip"></i>
-                </span>
-            </div>
-        </div>
-    </div>
-    <h1 class="title is-4">Periode</h1>
-    <div class="field columns">
-        <div class="column">
-            <label class="label">Startdatum</label>
-            <div class="control is-expanded has-icons-left">
-                <input class="input" type="date">
-                <span class="icon is-left">
-                    <i class="fas fa-calendar-days"></i>
-                </span>
-            </div>
-        </div>
-        <div class="column">
-            <label class="label">Einddatum</label>
-            <div class="control is-expanded has-icons-left">
-                <input class="input" type="date">
-                <span class="icon is-left">
-                    <i class="fas fa-calendar-days"></i>
-                </span>
-            </div>
-        </div>
-        <div class="column">
-            <label class="label">Beschikbaarheid</label>
-            <div class="control has-icons-left">
-                <div class="select is-primary is-fullwidth">
-                    <select>
-                        <option>9u - 17u</option>
-                        <option>24/7</option>
-                    </select>
-                </div>
-                <div class="icon is-small is-left">
-                    <i class="fas fa-clock"></i>
-                </div>
-            </div>
-        </div>
-    </div>
-    <button class="button is-rechts is-success" type="submit">
-        <span class="icon is-small">
-            <i class="fas fa-check"></i>
-        </span>
-        <span>Virtual Machine aanvragen</span>
-    </button>
-</form>
-
-@code {
-    public Boolean isTemplate { get; set; } = false;
-
-    public void toggleTemplate()
+    @if (!AuthenticationState.User.IsInRole("Administrator"))
     {
-        isTemplate = !isTemplate;
+        <a type="button" class="link" @onclick="@Logout">Ander account</a>
     }
-
-}
+    <EditForm Model="@model" OnValidSubmit="@MaakVirtualMachine">
+        <DataAnnotationsValidator />
+        <ValidationSummary />
+            <div class="field columns">
+                <div class="column">
+                    <label class="label">Project</label>
+                    <div class="control is-expanded has-icons-left">
+                        <div class="select is-primary is-fullwidth">
+                            <InputSelect @bind-Value="model.ProjectId" >
+                                @if(_projects != null && _projects.Count() != 0)
+                                {
+                                    @foreach (var proj in _projects)
+                                    {
+                                    <option value="@proj.Id"> @proj.Name</option>
+                                    }
+                                }
+                                else
+                                {
+                                    <option value="0">Geen Projecten...</option>
+                                }
+                            </InputSelect>
+                        </div>
+                        <div class="icon is-small is-left">
+                            <i class="fas fa-folder"></i>
+                        </div>
+                    </div>
+                </div>
+                <div class="column">
+                    <label class="label">Naam</label>
+                    <p class="control has-icons-left">
+                        <InputText name="lastName" class="input" type="text" placeholder="Naam VM" @bind-Value="@model.Name"/>
+                        <span class="icon is-small is-left">
+                            <i class="fas fa-computer"></i>
+                        </span>
+                    </p>
+                </div>
+            </div>
+            <div class="field columns">
+                <div class="column">
+                    <label class="label">Backup</label>
+                    <div class="control has-icons-left">
+                        <div class="select is-primary is-fullwidth">
+                            <InputSelect @bind-Value="@model.Backup.Type">
+                                <option value="@BackUpType.CUSTOM">Custom</option>
+                                <option value="@BackUpType.DAILY">Dagelijks</option>
+                                <option value="@BackUpType.WEEKLY">Wekelijks</option>
+                                <option value="@BackUpType.MONTHLY">Maandelijks</option>
+                            </InputSelect>
+                        </div>
+                        <div class="icon is-small is-left">
+                            <i class="fas fa-server"></i>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <h1 class="title is-4">Hardware</h1>
+            <div class="field columns">
+                <div class="column">
+                    <label class="label">Besturingssysteem</label>
+                    <div class="control has-icons-left">
+                        <div class="select is-primary is-fullwidth">
+                            <InputSelect @bind-Value="@model.OperatingSystem">
+                                <option value="@OperatingSystemEnum.WINDOWS_10">Windows 10</option>
+                                <option value="@OperatingSystemEnum.WINDOWS_SERVER2019">Windows Server 2019</option>
+                                <option value="@OperatingSystemEnum.KALI_LINUX">Kali Linux</option>
+                                <option value="@OperatingSystemEnum.UBUNTU_22_04">Ubuntu 22 04</option>
+                                <option value="@OperatingSystemEnum.FEDORA_35">Fedora 35</option>
+                            </InputSelect>
+                        </div>
+                        <div class="icon is-small is-left">
+                            <i class="fas fa-globe"></i>
+                        </div>
+                    </div>
+                </div>
+                <div class="column">
+                    <label class="label">RAM</label>
+                    <div class="control has-icons-left">
+                        <div class="select is-primary is-fullwidth">
+                            <InputSelect @bind-Value="@model.Hardware.Memory">
+                                <option value="4">4 Gb</option>
+                                <option value="8">8 Gb</option>
+                                <option value="16">16 Gb</option>
+                                <option value="32">32 Gb</option>
+                            </InputSelect>
+                        </div>
+                        <div class="icon is-small is-left">
+                            <i class="fas fa-server"></i>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="field columns">
+                <div class="column">
+                    <label class="label">Opslag</label>
+                    <div class="control has-icons-left">
+                        <div class="select is-primary is-fullwidth">
+                            <InputSelect @bind-Value="@model.Hardware.Storage">
+                                <option value="64">64 Gb</option>
+                                <option value ="128">128 Gb</option>
+                                <option value="256">256 Gb</option>
+                                <option value="512">512 Gb</option>
+                                <option value="1024">1024 Gb</option>
+                            </InputSelect>
+                        </div>
+                        <div class="icon is-small is-left">
+                            <i class="fas fa-hard-drive"></i>
+                        </div>
+                    </div>
+                </div>
+                <div class="column">
+                    <label class="label">CPU's</label>
+                    <div class="control is-expanded has-icons-left">
+                        <InputNumber @bind-Value="model.Hardware.Amount_vCPU" class="input has-text-right" placeholder="1" min="2" max="32"/>
+                        <span class="icon is-left">
+                            <i class="fas fa-microchip"></i>
+                        </span>
+                    </div>
+                </div>
+            </div>
+            <h1 class="title is-4">Periode</h1>
+            <div class="field columns">
+                <div class="column">
+                    <label class="label">Startdatum</label>
+                    <div class="control is-expanded has-icons-left">
+                        <InputDate @bind-Value="@model.Start" class="input"/>
+                        <span class="icon is-left">
+                            <i class="fas fa-calendar-days"></i>
+                        </span>
+                    </div>
+                </div>
+                <div class="column">
+                    <label class="label">Einddatum</label>
+                    <div class="control is-expanded has-icons-left">
+                        <InputDate @bind-Value="@model.Start" class="input"/>
+                        <span class="icon is-left">
+                            <i class="fas fa-calendar-days"></i>
+                        </span>
+                    </div>
+                </div>
+            </div>
+            <button disabled="@(_projects == null || _projects.Count() == 0)" class="button is-rechts is-success" type="submit">
+                <span class="icon is-small">
+                    <i class="fas fa-check"></i>
+                </span>
+                <span>Virtual Machine aanvragen</span>
+            </button>
+        </EditForm>
+        }
+    </Authorized>
+</AuthorizeView>

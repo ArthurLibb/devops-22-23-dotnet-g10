@@ -34,9 +34,18 @@ else{
             }
             else if (Collapsed.ContainsKey(vm.Id) && Collapsed[vm.Id])
             {
-                <div class="card-body">
-                    <Grafiek stats="@vm.Statistics"></Grafiek>
-                </div>
+                @if(vm.Statistics == null)
+                {
+                    <div class="card-body">
+                        <p>Deze virtualmachine heeft nog geen statistieken om te tonen.</p>
+                    </div>
+                }
+                else
+                {
+                    <div class="card-body">
+                        <Grafiek stats="@vm.Statistics"></Grafiek>
+                    </div>
+                }
             }
         </div>
     }

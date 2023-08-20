@@ -10,6 +10,9 @@ using Client.Users;
 using Client.Shared;
 using Shared.Servers;
 using Client.Servers;
+using Shared.Authentication;
+using Client.VirtualMachines.Components;
+using Microsoft.AspNetCore.Authorization;
 
 namespace Client
 {
@@ -26,6 +29,8 @@ namespace Client
             builder.Services.AddScoped<IUserService, UsersService>();
             builder.Services.AddScoped<IProjectService, ProjectService>();
             builder.Services.AddScoped<IFysiekeServerService, FysiekeServicerService>();
+            builder.Services.AddScoped<IAuthenticationService, AuthenticationService>();
+            builder.Services.AddScoped<AuthorizationHandlerContext>();
             //builder.Services.AddScoped<IVMContractService, VMContractService>();
 
 

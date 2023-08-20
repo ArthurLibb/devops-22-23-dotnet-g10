@@ -12,6 +12,8 @@ using Shared.VMContracts;
 using Shared.Servers;
 using Shared.VMConnection;
 using Azure;
+using Domain.Exceptions;
+using Domain.VirtualMachines.Contract;
 
 namespace Services.VirtualMachines
 {
@@ -22,9 +24,37 @@ namespace Services.VirtualMachines
             _dbContext = dBContext;
         }
 
-        public Task<VirtualMachineResponse.Create> CreateAsync(VirtualMachineRequest.Create request)
+        public async Task<VirtualMachineResponse.Create> CreateAsync(VirtualMachineRequest.Create request)
         {
-            throw new NotImplementedException();
+            var project = await _dbContext.projecten.Where(p => p.Id == request.VirtualMachine.ProjectId).FirstOrDefaultAsync();
+            var vm = request.VirtualMachine;
+            if(project == null) { throw new EntityNotFoundException("Project", ""); }
+
+            var newVm = new VirtualMachine
+            {
+                Name = vm.Name,
+                OperatingSystem = vm.OperatingSystem,
+                Hardware = vm.Hardware,
+                BackUp = new Backup(vm.Backup.Type, vm.Backup.LastBackup)
+            };
+            var addedVm =  _dbContext.Virtualmachines.Add(newVm);
+            await _dbContext.SaveChangesAsync();
+
+            var contract = new VMContract(request.CustomerId, addedVm.Entity.Id, vm.Start, vm.End);
+            newVm.Contract = contract;
+            project.AddVirtualMachine(newVm);
+
+            var server = await _dbContext.fysiekeServers.OrderBy(f => f.VirtualMachines.Count).FirstOrDefaultAsync();
+            server.AddConnection(newVm);
+            newVm.FysiekeServer = server;
+
+            Console.WriteLine(server.Naam);
+
+            await _dbContext.SaveChangesAsync();
+
+            var reponse = new VirtualMachineResponse.Create { VirtualmachineId = addedVm.Entity.Id };
+            return reponse;
+
         }
 
         public Task DeleteAsync(VirtualMachineRequest.Delete request)
@@ -64,12 +94,6 @@ namespace Services.VirtualMachines
             return response;
         }
 
-        public Task<VirtualMachineResponse.GetIndex> GetVirtualmachineByProjectId(int projectId)
-        {
-            //_dbContext.Virtualmachines.Where(v => v.Pro)
-                throw new NotImplementedException();
-        }
-
         public Task<VirtualMachineResponse.GetIndex> GetIndexAsync(VirtualMachineRequest.GetIndex request)
         {
             throw new NotImplementedException();
@@ -78,6 +102,20 @@ namespace Services.VirtualMachines
         public Task<VirtualMachineResponse.Rapport> RapporteringAsync(VirtualMachineRequest.GetDetail request)
         {
             throw new NotImplementedException();
+        }
+
+        public async Task<VirtualMachineResponse.GetIndex> GetVirtualMachinesByProjectId(int id)
+        {
+            var project = await _dbContext.projecten.Where(p => p.Id == id).Include(p => p.VirtualMachines).FirstOrDefaultAsync();
+            if (project == null) return null;
+            var listVirtualmachines = new List<VirtualMachineDto.Index>();
+            project.VirtualMachines.ForEach(v => listVirtualmachines.Add(new VirtualMachineDto.Index { Id = v.Id, Mode = v.Mode, Name = v.Name}));
+            var reponse = new VirtualMachineResponse.GetIndex
+            {
+                TotalAmount = project.VirtualMachines.Count,
+                VirtualMachines = listVirtualmachines
+            };
+            return reponse;
         }
     }
 }

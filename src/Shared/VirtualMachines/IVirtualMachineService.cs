@@ -8,4 +8,5 @@ public interface IVirtualMachineService
     Task<VirtualMachineResponse.Create> CreateAsync(VirtualMachineRequest.Create request);
     Task<VirtualMachineResponse.Edit> EditAsync(VirtualMachineRequest.Edit request);
     Task<VirtualMachineResponse.Rapport> RapporteringAsync(VirtualMachineRequest.GetDetail request);
+    Task<VirtualMachineResponse.GetIndex> GetVirtualMachinesByProjectId(int id);
 }

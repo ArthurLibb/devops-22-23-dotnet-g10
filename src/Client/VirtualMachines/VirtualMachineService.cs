@@ -1,4 +1,5 @@
 ﻿using Client.Extentions;
+using Shared.Authentication;
 using Shared.Projects;
 using Shared.VirtualMachines;
 using System.Net.Http.Json;
@@ -16,9 +17,10 @@ namespace Client.VirtualMachines
             this.client = client;
         }
 
-        public Task<VirtualMachineResponse.Create> CreateAsync(VirtualMachineRequest.Create request)
+        public async Task<VirtualMachineResponse.Create> CreateAsync(VirtualMachineRequest.Create request)
         {
-            throw new NotImplementedException();
+            var response = await client.PostAsJsonAsync($"{endpoint}", request);
+            return await response.Content.ReadFromJsonAsync<VirtualMachineResponse.Create>();
         }
 
         public Task DeleteAsync(VirtualMachineRequest.Delete request)
@@ -43,6 +45,11 @@ namespace Client.VirtualMachines
         }
 
         public Task<VirtualMachineResponse.Rapport> RapporteringAsync(VirtualMachineRequest.GetDetail request)
+        {
+            throw new NotImplementedException();
+        }
+
+        public Task<VirtualMachineResponse.GetIndex> GetVirtualMachinesByProjectId(int id)
         {
             throw new NotImplementedException();
         }
