@@ -3,6 +3,7 @@ using Domain.Users;
 using Domain.Utility;
 using Domain.Utility;
 using FluentValidation;
+using Shared.CustomValidators.ContactPersoon;
 using Shared.Projects;
 using System.ComponentModel.DataAnnotations;
 
@@ -37,10 +38,10 @@ public static class KlantDto
         [Required(ErrorMessage = "Je moet een naam ingeven.")]
         public string Name { get; set; }
         [Required(ErrorMessage = "Je moet een gsm-nummer ingeven.")]
-        [CustomValidation(typeof(PropertyValidator), "IsPhoneNumberValid", ErrorMessage = "Invalid phone number.")]
+        [PhoneValidator(ErrorMessage = "Geef een correcte gsm-nummer voor de contractpersoon.")]
         public string PhoneNumber { get; set; }
         [Required(ErrorMessage = "Je moet een e-mail ingeven.")]
-        [CustomValidation(typeof(PropertyValidator), "IsValidEmail", ErrorMessage = "Je hebt een foutieve email ingegeven.")]
+        [EmailValidator(ErrorMessage = "Geef een correcte e-mail voor de contractpersoon.")]
         public string Email { get; set; }
         public Course? Opleiding { get; set; }
         public string? Bedrijf { get; set; }

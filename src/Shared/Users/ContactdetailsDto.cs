@@ -1,4 +1,5 @@
 ﻿using Shared.CustomValidators;
+using Shared.CustomValidators.ContactPersoon;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
@@ -14,10 +15,10 @@ public class ContactdetailsDto
     {
         public string? FirstName { get; set; }
         public string? LastName { get; set; }
-        [CustomValidation(typeof(PropertyValidator), "IsPhoneNumberValid")]
-        public string PhoneNumber { get; set; }
-        [CustomValidation(typeof(PropertyValidator), "IsValidEmail")]
+        [PhoneValidator(ErrorMessage = "Geef een correcte gsm-nummer voor de contractpersoon.")]
+        public string? PhoneNumber { get; set; }
+        [EmailValidator(ErrorMessage = "Geef een correcte e-mail voor de contractpersoon.")]
         public string? Email { get; set; }
-        
+
     }
 }

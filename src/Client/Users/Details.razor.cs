@@ -39,9 +39,12 @@ public partial class Details
 
         Loading = false;
     }
-    public void Toggle()
+    public async void Toggle()
     {
         Edit = !Edit;
+        await GetKlantAsync();
+        ObjectToMutate();
+        StateHasChanged();
     }
 
     private async void EditKlant()
