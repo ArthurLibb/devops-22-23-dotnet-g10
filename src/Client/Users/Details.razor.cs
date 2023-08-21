@@ -11,6 +11,7 @@ public partial class Details
 
     private ContactdetailsDto.Index contactDetails = new();
     private KlantDto.Mutate model = new();
+
     private KlantDto.Detail Klant;
 
     public bool Edit = false;

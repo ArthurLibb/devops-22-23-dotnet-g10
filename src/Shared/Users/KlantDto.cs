@@ -32,16 +32,15 @@ public static class KlantDto
     public class Mutate
     {
         [Required(ErrorMessage = "Je moet een voornaam ingeven.")]
-        [StringLength(20, ErrorMessage = "Naam is te lang")]
+        [StringLength(20, ErrorMessage = "Naam is te lang.")]
         public string FirstName { get; set; }
         [Required(ErrorMessage = "Je moet een naam ingeven.")]
         public string Name { get; set; }
         [Required(ErrorMessage = "Je moet een gsm-nummer ingeven.")]
-        [Phone(ErrorMessage = "Je moet een correct gsm-nummer ingeven.")]
+        [CustomValidation(typeof(PropertyValidator), "IsPhoneNumberValid", ErrorMessage = "Invalid phone number.")]
         public string PhoneNumber { get; set; }
         [Required(ErrorMessage = "Je moet een e-mail ingeven.")]
-        [EmailAddress(ErrorMessage = "Je moet een correcte e-mail")]
-        [DataType(DataType.EmailAddress)]
+        [CustomValidation(typeof(PropertyValidator), "IsValidEmail", ErrorMessage = "Je hebt een foutieve email ingegeven.")]
         public string Email { get; set; }
         public Course? Opleiding { get; set; }
         public string? Bedrijf { get; set; }

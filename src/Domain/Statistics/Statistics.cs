@@ -22,7 +22,7 @@ public class Statistic : Entity
     }
 
 
-    public Dictionary<DateTime, DataPoint> GetFakeStatistics(StatisticsPeriod period)
+    /*public Dictionary<DateTime, DataPoint> GetFakeStatistics(StatisticsPeriod period)
     {
         DataPointsFaker.Instance.Hardware = Hardware;
         List<DataPoint> _dataPoints = DataPointsFaker.Instance.Generate(GetAmountOfTicks(period));
@@ -76,7 +76,7 @@ public class Statistic : Entity
 
         return output;
 
-    }
+    }*/
 
     private DateTime FormatStartTime(StatisticsPeriod period)
     {

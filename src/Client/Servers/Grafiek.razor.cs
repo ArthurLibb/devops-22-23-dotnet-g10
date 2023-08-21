@@ -30,7 +30,7 @@ namespace Client.Servers
         {
             Loading = true;
             _data.Add(key: stats.StartTime, value: stats.Hardware);
-            _data.Add(key: stats.EndTime, value: stats.Hardware);
+            _data.Add(key: stats.StartTime.AddDays(8), value: stats.Hardware);
             Loading = false;
         }
 

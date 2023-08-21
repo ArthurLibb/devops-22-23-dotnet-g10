@@ -26,7 +26,7 @@ namespace Shared.Servers
         public class Beschikbaarheid
         {
             public int Id { get; set; }
-            public Hardware AvailableHardware { get; set; }
+            public Hardware HardwareInUse { get; set; }
         }
     }
 }

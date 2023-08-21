@@ -13,6 +13,8 @@ using Client.Servers;
 using Shared.Authentication;
 using Client.VirtualMachines.Components;
 using Microsoft.AspNetCore.Authorization;
+using Blazored.Toast;
+using Blazored.Toast.Services;
 
 namespace Client
 {
@@ -23,6 +25,7 @@ namespace Client
             var builder = WebAssemblyHostBuilder.CreateDefault(args);
             builder.RootComponents.Add<App>("#app");
             builder.Services.AddSidepanel();
+            builder.Services.AddBlazoredToast();
 
             /*allservices*/
             builder.Services.AddScoped<IVirtualMachineService, VirtualMachineService>();
@@ -31,6 +34,7 @@ namespace Client
             builder.Services.AddScoped<IFysiekeServerService, FysiekeServicerService>();
             builder.Services.AddScoped<IAuthenticationService, AuthenticationService>();
             builder.Services.AddScoped<AuthorizationHandlerContext>();
+            builder.Services.AddScoped<IToastService,  ToastService>();
             //builder.Services.AddScoped<IVMContractService, VMContractService>();
 
 

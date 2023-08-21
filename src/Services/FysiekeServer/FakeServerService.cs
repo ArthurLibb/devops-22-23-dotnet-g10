@@ -139,5 +139,10 @@ namespace Services.Server
             return maxHardware;
 
         }
+
+        public Task<FysiekeServerResponse.GraphValues> GetGraphValueForServer(FysiekeServerRequest.Date date)
+        {
+            throw new NotImplementedException();
+        }
     }
 }

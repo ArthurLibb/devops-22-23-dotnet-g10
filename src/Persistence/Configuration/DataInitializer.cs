@@ -29,7 +29,6 @@ public class DataInitializer
         DbContext.Database.EnsureDeleted();
         if (DbContext.Database.EnsureCreated())
         {
-            
             seedAdmins();
             seedKlanten();
             SeedVirtualMachines();

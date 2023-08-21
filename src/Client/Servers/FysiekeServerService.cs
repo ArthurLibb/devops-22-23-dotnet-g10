@@ -29,9 +29,10 @@ namespace Client.Servers
             return response;
         }
 
-        public Task<FysiekeServerResponse.ResourcesAvailable> GetAvailableHardWareOnDate(FysiekeServerRequest.Date date)
+        public async Task<FysiekeServerResponse.ResourcesAvailable> GetAvailableHardWareOnDate(FysiekeServerRequest.Date date)
         {
-            throw new NotImplementedException();
+            var response = await _httpClient.PostAsJsonAsync($"{endpoint}/available", date);
+            return await response.Content.ReadFromJsonAsync<FysiekeServerResponse.ResourcesAvailable>();
         }
 
         public Task<FysiekeServerResponse.Available> GetAvailableServersByHardWareAsync(FysiekeServerRequest.Order request)
@@ -45,9 +46,10 @@ namespace Client.Servers
             return response;
         }
 
-        public Task<FysiekeServerResponse.GraphValues> GetGraphValueForServer()
+        public async Task<FysiekeServerResponse.GraphValues> GetGraphValueForServer(FysiekeServerRequest.Date date)
         {
-            throw new NotImplementedException();
+            var response = await _httpClient.PostAsJsonAsync($"{endpoint}/graph", date);
+            return await response.Content.ReadFromJsonAsync<FysiekeServerResponse.GraphValues>();
         }
     }
 }

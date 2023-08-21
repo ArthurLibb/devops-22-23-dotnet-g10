@@ -1,4 +1,6 @@
-﻿using Client.Pages;
+﻿using Blazored.Toast;
+using Blazored.Toast.Services;
+using Client.Pages;
 using Domain.Common;
 using Domain.VirtualMachines.BackUp;
 using Domain.VirtualMachines.VirtualMachine;
@@ -24,7 +26,7 @@ public partial class CreateVM
     [Inject] public IProjectService ProjectService { get; set; }
     [Inject] public IVirtualMachineService VirtualMachineService { get; set; }
     [Inject] NavigationManager NavMan { get; set; }
-
+    [Inject] IToastService toastService { get; set; }
     protected override async Task OnInitializedAsync()
     {
         Loading = true;
@@ -63,6 +65,7 @@ public partial class CreateVM
             };
             await VirtualMachineService.CreateAsync(request);
             NavMan.NavigateTo($"/virtualmachines");
+            toastService.ShowSuccess("De virtualmachine is aangemaakt");
         }
         else
         {
@@ -73,6 +76,7 @@ public partial class CreateVM
                        
             };
             await VirtualMachineService.CreateAsync(request);
+            toastService.ShowSuccess("De virtualmachine is aangemaakt");
         }
 
     }

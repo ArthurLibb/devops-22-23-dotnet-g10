@@ -136,9 +136,9 @@ namespace Client.Servers.Component
             int difference = max.Subtract(min).Days;
             _config.Data.Labels.Add(min.ToString("dd/MM/yyy"));
 
-            if (difference <= 8)
+            if (difference<=8)
             {
-                for (int i = 1; i <= difference; i++)
+                for (int i = 1; i <= 8; i++)
                 {
                     min = min.AddDays(1);
                     _config.Data.Labels.Add(min.ToString("dd/MM/yyy"));
@@ -146,13 +146,12 @@ namespace Client.Servers.Component
             }
             else
             {
-                for (int i = 1; i <= 8; i++)
+                for (int i = 1; i <= difference; i++)
                 {
-                    min = min.AddDays(Math.Floor(difference / 8.0));
+                    min = min.AddDays(1);
                     _config.Data.Labels.Add(min.ToString("dd/MM/yyy"));
                 }
             }
-
 
             _config.Data.Labels.Add(max.ToString("dd/MM/yyyy"));
 

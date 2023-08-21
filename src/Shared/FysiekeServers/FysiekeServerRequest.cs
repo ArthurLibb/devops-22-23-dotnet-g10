@@ -30,6 +30,5 @@ namespace Shared.Servers
             public DateTime FromDate { get; set; }
             public DateTime ToDate { get; set; }
         }
-
     }
 }

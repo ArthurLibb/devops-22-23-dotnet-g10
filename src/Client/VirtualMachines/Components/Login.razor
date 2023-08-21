@@ -12,13 +12,13 @@ else
 {
     <EditForm Model="@model" OnSubmit="@LoginUser">
         <h3>Login met je account waarmee je op de app in logt.</h3>
-        <p class="alert-danger"> @text </p>
+        <p class="has-text-danger"> @text </p>
 
-        <div class="w-25">
+        <div class="is-5">
             <label class="label">Email: </label>
             <InputText class="input w-25" @bind-Value="@model.Email" />
         </div>
-        <div class="w-25">
+        <div class="is-5">
             <label class="label">Wachtwoord:</label>
             <input class="input w-25" type="password" @bind="@model.Password"> </input>
         </div>

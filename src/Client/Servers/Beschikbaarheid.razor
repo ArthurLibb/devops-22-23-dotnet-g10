@@ -5,15 +5,24 @@
 
 <div class="container">
     <div class="form-container">
-        <div class="flex">
-            <label class="px-4" for="date">Start Datum:</label>
-            <input type="date" name="date" @bind="DateStart" />
-            <label class="px-4" for="date">Eind Datum:</label>
-            <input class="mr-4" type="date" name="date" @bind="DateEnd" />
-            <button class="btn btn-primary" type="submit" @onclick="GetAvailableResources">Submit</button>
+        <div class="block">
+            <div class="flex">
+                <p class="has-text-danger">@check</p>
+                <label class="" for="startdate">Start Datum:</label>
+                <input type="date" name="startdate" @bind="DateStart" />
+                <label class="px-4" for="enddate">Eind Datum:</label>
+                <input class="mr-4" type="date" name="enddate" @bind="DateEnd" />
+            </div>
         </div>
-        <div>
-            <i class="fa-solid fa-square-poll-vertical fa-2x" @onclick="Toggle"></i>
+        <div class="block">
+            <div class="field is-grouped">
+                <div class="control">
+                    <button class="button is-info mr-2" type="submit" @onclick="GetAvailableResources">Submit</button>
+                </div>
+                <div class="control">
+                    <i class="fa-solid fa-square-poll-vertical fa-2x" @onclick="Toggle"></i>
+                </div>
+            </div>
         </div>
     </div>
     @if (loading)
@@ -24,9 +33,16 @@
     }
     else if (_active)
     {
-        <div class="graph-container">
-            <Client.Servers.Component.Graph Data="_data" />
-        </div>
+        if (_data.Count() ==0 )
+        {
+            <p>Je moet een periode geven die groter is dan 1 dag.</p>
+        }
+        else
+        {
+            <div class="graph-container">
+                <Client.Servers.Component.Graph Data="_data" />
+            </div>
+        }
     }
     else if (Servers is not null && Servers.Count() > 0)
     {
@@ -40,9 +56,12 @@
                             <h3 class="card-header-title">Server: @server.Id</h3>
                         </div>
                         <div class="card-body">
-                            <p>Geheugen/Ram: @(server.AvailableHardware.Memory > 1000 ? ((double)server.AvailableHardware.Memory / 1000.00).ToString("#.##") + " GB" : server.AvailableHardware.Memory + " MB")</p>
-                            <p>Opslag: @(server.AvailableHardware.Storage > 1000000 ? ((double)server.AvailableHardware.Storage / 1000000.00).ToString("#.##") + " TB" : server.AvailableHardware.Storage > 1000 ? ((double)server.AvailableHardware.Storage / 1000.00).ToString("#.##") + " GB" : server.AvailableHardware.Storage + " MB")</p>
-                            <p>Aantal Cores: @server.AvailableHardware.Amount_vCPU</p>
+                            <div class="subtitle">
+                                <p>Resources</p>
+                            </div>
+                            <p>Geheugen/Ram: @(server.HardwareInUse.Memory) MB</p>
+                            <p>Opslag: @(server.HardwareInUse.Storage) GB</p>
+                            <p>Aantal Cores: @server.HardwareInUse.Amount_vCPU</p>
                         </div>
                     </div>
                 </div>
@@ -59,10 +78,15 @@
 
     private async void Toggle()
     {
-        _active = !_active;
-
-        if (_data.Count == 0)
+        if (_active)
         {
+            loading = true;
+            await GetAvailableResourcesTotal();
+            loading = false;
+        }
+        else
+        {
+            _active = !_active;
             loading = true;
             await GetAvailableResourcesTotal();
             loading = false;
